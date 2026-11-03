@@ -1,0 +1,234 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+    --bs-primary: #e11d48;
+    --bs-primary-rgb: 225, 29, 72;
+    --bs-danger: #e11d48;
+    --bs-danger-rgb: 225, 29, 72;
+    --bs-body-bg: #f8fafc;
+    --bs-body-color: #0f172a;
+}
+
+body {
+    min-width: 320px;
+    background: var(--bs-body-bg);
+}
+
+/* bagian sidebar */
+.app-sidebar {
+    position: fixed;
+    z-index: 1040;
+    inset: 0 auto 0 0; /*perlu penjelasan lebih*/
+    display: flex;
+    width: 250px;
+    flex-direction: column;
+    overflow-y: auto; /*perlu penjelasan lebih*/
+}
+
+.brand {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.brand-mark,
+.mobile-brand-mark {
+    width: 50px;
+    height: 50px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    color: #cbd5e1;
+    font-size: .875rem;
+}
+
+.sidebar-link > span:first-child {
+    display: inline-flex;
+    width: 1.25rem;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.sidebar-link:hover,
+.sidebar-link:focus {
+    color: #fff;
+    background: #1e293b;
+}
+
+.nav-pills .sidebar-link.active {
+    color: #fff;
+    background: #e11d48;
+}
+
+.sidebar-footer .btn-warning {
+    background: #ea580c;
+    border-color: #ea580c;
+    color: #fff;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+}
+
+.app-main {
+    min-height: 100vh;
+    margin-left: 250px;
+}
+
+.desktop-store-name {
+    font-size: .95rem;
+}
+
+.mobile-store-name,
+.mobile-store-location,
+.mobile-brand-mark {
+    display: none;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: .4rem;
+    border-radius: 50%;
+    background: #16a34a;
+}
+
+.sidebar-backdrop {
+    display: none;
+}
+
+@media (max-width: 991.98px) {
+    .app-sidebar {
+        width: min(290px, calc(100vw - 56px));
+        transform: translateX(-100%);
+        transition: transform .2s ease;
+    }
+
+    .app-sidebar.is-open {
+        transform: translateX(0);
+    }
+
+    .sidebar-backdrop {
+        position: fixed;
+        z-index: 1030;
+        inset: 0;
+        display: block;
+        visibility: hidden;
+        border: 0;
+        background: rgb(15 23 42 / 45%);
+        opacity: 0;
+        transition: opacity .2s ease, visibility .2s ease;
+    }
+
+    .sidebar-backdrop.is-visible {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .app-main {
+        margin-left: 0;
+    }
+
+    .mobile-bottom-nav {
+        position: fixed;
+        z-index: 1020;
+        inset: auto 0 0;
+        display: grid;
+        min-height: 66px;
+        grid-template-columns: repeat(5, 1fr);
+        padding: .4rem .5rem max(.4rem, env(safe-area-inset-bottom));
+        border-top: 1px solid #1e293b;
+        background: #0f172a;
+    }
+
+    .bottom-nav-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: .2rem;
+        color: #94a3b8;
+        text-decoration: none;
+    }
+
+    .bottom-nav-link > span {
+        display: grid;
+        width: 25px;
+        height: 25px;
+        place-items: center;
+        border-radius: 50%;
+        font-size: 1rem;
+    }
+
+    .bottom-nav-link small {
+        font-size: .65rem;
+    }
+
+    .bottom-nav-link.active {
+        color: #fb7185;
+        font-weight: 700;
+    }
+
+    .bottom-nav-link.active > span {
+        color: #fff;
+        background: #e11d48;
+    }
+
+    .app-main > main {
+        padding-bottom: 6rem !important;
+    }
+
+}
+
+@media (max-width: 575.98px) {
+    .brand-mark,
+    .mobile-brand-mark {
+        width: 32px;
+        height: 32px;
+        font-size: .7rem;
+    }
+
+    .desktop-store-name {
+        display: none;
+    }
+
+    .mobile-store-name,
+    .mobile-store-location,
+    .mobile-brand-mark {
+        display: block;
+    }
+
+    .mobile-store-name {
+        font-size: .65rem;
+        font-weight: 900;
+    }
+
+    .mobile-store-location {
+        font-size: .6rem;
+    }
+
+    .app-main > main {
+        padding-top: 1rem !important;
+    }
+
+    .app-main h1 {
+        font-size: 1.3rem;
+    }
+
+    .app-main .card-body {
+        padding: .85rem;
+    }
+
+    .app-main .card-body .h4 {
+        font-size: 1.1rem;
+    }
+
+    .app-main .table {
+        font-size: .8rem;
+    }
+}
