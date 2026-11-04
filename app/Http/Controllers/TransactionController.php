@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\StockLog;
 use App\Models\Transaction;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -90,7 +91,16 @@ class TransactionController extends Controller
             ]);
 
             if ($item['product']->ingredient_id && $item['product']->jumlah_potong > 0) {
-                $item['product']->ingredient?->decrement('stok_saat_ini', $item['product']->jumlah_potong * $item['qty']);
+                $used = $item['product']->jumlah_potong * $item['qty'];
+                $item['product']->ingredient?->decrement('stok_saat_ini', $used);
+
+                StockLog::create([
+                    'ingredient_id' => $item['product']->ingredient_id,
+                    'tipe' => 'penjualan',
+                    'jumlah' => $used,
+                    'tanggal' => now()->toDateString(),
+                    'keterangan' => 'Penjualan '.$item['product']->nama_menu,
+                ]);
             }
         }
 

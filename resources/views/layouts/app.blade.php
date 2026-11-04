@@ -27,7 +27,7 @@
                 <a class="nav-link sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}" @if (request()->routeIs('dashboard')) aria-current="page" @endif>
                     <span aria-hidden="true">▦</span><span>Dashboard</span>
                 </a>
-                <a class="nav-link sidebar-link" href="#stok">
+                <a class="nav-link sidebar-link {{ request()->routeIs('stocks.*') ? 'active' : '' }}" href="{{ route('stocks.index') }}" @if (request()->routeIs('stocks.*')) aria-current="page" @endif>
                     <span aria-hidden="true">▤</span><span>Stok</span>
                 </a>
                 <a class="nav-link sidebar-link {{ request()->routeIs('transactions.*') ? 'active' : '' }}" href="{{ route('transactions.index') }}" @if (request()->routeIs('transactions.*')) aria-current="page" @endif>
@@ -96,7 +96,7 @@
             <a class="bottom-nav-link active" href="{{ route('dashboard') }}" aria-current="page">
                 <span aria-hidden="true">▦</span><small>Dashboard</small>
             </a>
-            <a class="bottom-nav-link" href="#stok"><span aria-hidden="true">▤</span><small>Stok</small></a>
+            <a class="bottom-nav-link" href="{{ route('stocks.index') }}"><span aria-hidden="true">▤</span><small>Stok</small></a>
             <a class="bottom-nav-link" href="{{ route('transactions.index') }}"><span aria-hidden="true">＋</span><small>Transaksi</small></a>
             <a class="bottom-nav-link" href="#riwayat"><span aria-hidden="true">◷</span><small>Riwayat</small></a>
             <a class="bottom-nav-link" href="#laporan"><span aria-hidden="true">▥</span><small>Laporan</small></a>

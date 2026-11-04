@@ -59,7 +59,7 @@
                         <h2 class="h6 fw-bold mb-1">Sisa stok fisik bahan utama</h2>
                         <p class="small text-secondary mb-0">Sisa malam ini otomatis menjadi stok buka esok pagi.</p>
                     </div>
-                    <a class="small text-danger fw-semibold text-nowrap" href="#stok">Lihat stok →</a>
+                    <a class="small text-danger fw-semibold text-nowrap" href="{{ route('stocks.index') }}">Lihat stok →</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
