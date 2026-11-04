@@ -9,7 +9,7 @@
             <h1 class="h3 fw-bold mb-1">Ringkasan hari ini</h1>
             <p class="text-secondary mb-0">Menampikan ringkasan informasi penjualan hari ini.</p>
         </div>
-        <a class="btn btn-danger text-nowrap" href="#transaksi"><span aria-hidden="true">＋</span> Transaksi baru</a>
+        <a class="btn btn-danger text-nowrap" href="{{ route('transactions.index') }}"><span aria-hidden="true">＋</span> Transaksi baru</a>
     </div>
 
     <section class="row g-3 mb-4" aria-label="Ringkasan penjualan dan stok">

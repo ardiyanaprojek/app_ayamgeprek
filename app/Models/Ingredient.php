@@ -11,6 +11,7 @@ class Ingredient extends Model
     protected $fillable = [
         'nama_bahan',
         'satuan',
+        'stok_saat_ini',
         'stok_minimum',
     ];
 

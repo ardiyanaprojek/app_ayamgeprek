@@ -30,7 +30,7 @@
                 <a class="nav-link sidebar-link" href="#stok">
                     <span aria-hidden="true">▤</span><span>Stok</span>
                 </a>
-                <a class="nav-link sidebar-link" href="#transaksi">
+                <a class="nav-link sidebar-link {{ request()->routeIs('transactions.*') ? 'active' : '' }}" href="{{ route('transactions.index') }}" @if (request()->routeIs('transactions.*')) aria-current="page" @endif>
                     <span aria-hidden="true">＋</span><span>Transaksi</span>
                 </a>
                 <a class="nav-link sidebar-link" href="#riwayat">
@@ -97,10 +97,11 @@
                 <span aria-hidden="true">▦</span><small>Dashboard</small>
             </a>
             <a class="bottom-nav-link" href="#stok"><span aria-hidden="true">▤</span><small>Stok</small></a>
-            <a class="bottom-nav-link" href="#transaksi"><span aria-hidden="true">＋</span><small>Transaksi</small></a>
+            <a class="bottom-nav-link" href="{{ route('transactions.index') }}"><span aria-hidden="true">＋</span><small>Transaksi</small></a>
             <a class="bottom-nav-link" href="#riwayat"><span aria-hidden="true">◷</span><small>Riwayat</small></a>
             <a class="bottom-nav-link" href="#laporan"><span aria-hidden="true">▥</span><small>Laporan</small></a>
         </nav>
     </div>
+    @stack('scripts')
 </body>
 </html>
