@@ -28,6 +28,7 @@ window.addEventListener('keydown', (event) => {
     }
 });
 
+// modal tambah, edit bahan baku
 const ingredientModal = document.querySelector('#ingredientModal');
 
 ingredientModal?.addEventListener('show.bs.modal', (event) => {
@@ -40,12 +41,33 @@ ingredientModal?.addEventListener('show.bs.modal', (event) => {
     const minimum = ingredientModal.querySelector('#ingredient-minimum');
     const isEdit = trigger?.dataset.mode === 'edit';
 
-    form.action = isEdit
-        ? form.dataset.updateUrlTemplate.replace('__INGREDIENT__', encodeURIComponent(trigger.dataset.id))
-        : form.dataset.storeUrl;
+    form.action = isEdit ? form.dataset.updateUrlTemplate.replace('__INGREDIENT__', encodeURIComponent(trigger.dataset.id)) : form.dataset.storeUrl;
     method.value = isEdit ? 'PUT' : 'POST';
     title.textContent = isEdit ? 'Edit Bahan Baku' : 'Tambah Bahan Baru';
     name.value = isEdit ? trigger.dataset.name : '';
     unit.value = isEdit ? trigger.dataset.unit : '';
     minimum.value = isEdit ? trigger.dataset.minimum : '0';
+});
+
+// modal tambah, edit menu
+const productModal = document.querySelector('#productModal');
+
+productModal?.addEventListener('show.bs.modal', (event) => {
+    const trigger = event.relatedTarget;
+    const form = productModal.querySelector('#product-form');
+    const method = productModal.querySelector('#product-method');
+    const title = productModal.querySelector('#productModalLabel');
+    const name = productModal.querySelector('#product-name');
+    const price = productModal.querySelector('#product-price');
+    const ingredient = productModal.querySelector('#product-ingredient');
+    const quantity = productModal.querySelector('#product-quantity');
+    const isEdit = trigger?.dataset.mode === 'edit';
+
+    form.action = isEdit ? form.dataset.updateUrlTemplate.replace('__PRODUCT__', encodeURIComponent(trigger.dataset.id)) : form.dataset.storeUrl;
+    method.value = isEdit ? 'PUT' : 'POST';
+    title.textContent = isEdit ? 'Edit Menu' : 'Tambah Menu Baru';
+    name.value = isEdit ? trigger.dataset.name : '';
+    price.value = isEdit ? trigger.dataset.price : '';
+    ingredient.value = isEdit ? trigger.dataset.ingredientId : '';
+    quantity.value = isEdit ? trigger.dataset.quantity : '0';
 });

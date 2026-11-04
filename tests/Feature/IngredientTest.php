@@ -84,17 +84,27 @@ class IngredientTest extends TestCase
 
     public function test_destroy_rejects_ingredients_used_by_products(): void
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('ingredient_id')->nullable();
-        });
+        if (! Schema::hasTable('products')) {
+            Schema::create('products', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('ingredient_id')->nullable();
+            });
+        }
 
         $ingredient = Ingredient::create([
             'nama_bahan' => 'Ayam Potong',
             'satuan' => 'potong',
             'stok_minimum' => 0,
         ]);
-        DB::table('products')->insert(['ingredient_id' => $ingredient->id]);
+
+        $productData = ['ingredient_id' => $ingredient->id];
+        if (Schema::hasColumn('products', 'nama_menu')) {
+            $productData['nama_menu'] = 'Ayam Geprek';
+            $productData['harga_jual'] = 15000;
+            $productData['jumlah_potong'] = 1;
+        }
+
+        DB::table('products')->insert($productData);
 
         $this->delete(route('ingredients.destroy', $ingredient))
             ->assertRedirect(route('ingredients.index'))

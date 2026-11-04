@@ -72,9 +72,7 @@
                     <tbody>
                         @forelse ($ingredients as $ingredient)
                             @php
-                                $status = $ingredient->stok_saat_ini > $ingredient->stok_minimum
-                                    ? 'Aman'
-                                    : ($ingredient->stok_saat_ini === 0 ? 'Habis' : 'Menipis');
+                                $status = $ingredient->stok_saat_ini > $ingredient->stok_minimum ? 'Aman' : ($ingredient->stok_saat_ini === 0 ? 'Habis' : 'Menipis');
                             @endphp
                             <tr>
                                 <td class="ps-4">{{ $ingredients->firstItem() + $loop->index }}</td>
@@ -92,17 +90,9 @@
                                     @endif
                                 </td>
                                 <td class="text-end pe-4">
-                                    <button
-                                        class="btn btn-sm btn-outline-primary"
-                                        type="button"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#ingredientModal"
-                                        data-mode="edit"
-                                        data-id="{{ $ingredient->id }}"
-                                        data-name="{{ $ingredient->nama_bahan }}"
-                                        data-unit="{{ $ingredient->satuan }}"
-                                        data-minimum="{{ $ingredient->stok_minimum }}"
-                                    >Edit</button>
+                                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#ingredientModal" data-mode="edit" data-id="{{ $ingredient->id }}" data-name="{{ $ingredient->nama_bahan }}" data-unit="{{ $ingredient->satuan }}" data-minimum="{{ $ingredient->stok_minimum }}">
+                                        Edit
+                                    </button>
                                     <form class="d-inline" method="POST" action="{{ route('ingredients.destroy', $ingredient) }}" onsubmit="return confirm('Yakin ingin menghapus bahan baku ini?')">
                                         @csrf
                                         @method('DELETE')
@@ -152,16 +142,7 @@
                                 <div class="col-6 text-end">{{ $ingredient->stok_minimum }} {{ $ingredient->satuan }}</div>
                             </div>
                             <div class="d-flex gap-2">
-                                <button
-                                    class="btn btn-sm btn-outline-primary flex-fill"
-                                    type="button"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#ingredientModal"
-                                    data-mode="edit"
-                                    data-id="{{ $ingredient->id }}"
-                                    data-name="{{ $ingredient->nama_bahan }}"
-                                    data-unit="{{ $ingredient->satuan }}"
-                                    data-minimum="{{ $ingredient->stok_minimum }}"
+                                <button class="btn btn-sm btn-outline-primary flex-fill" type="button" data-bs-toggle="modal" data-bs-target="#ingredientModal" data-mode="edit" data-id="{{ $ingredient->id }}" data-name="{{ $ingredient->nama_bahan }}" data-unit="{{ $ingredient->satuan }}" data-minimum="{{ $ingredient->stok_minimum }}"
                                 >Edit</button>
                                 <form class="flex-fill" method="POST" action="{{ route('ingredients.destroy', $ingredient) }}" onsubmit="return confirm('Yakin ingin menghapus bahan baku ini?')">
                                     @csrf
@@ -189,19 +170,13 @@
     <div class="modal fade" id="ingredientModal" tabindex="-1" aria-labelledby="ingredientModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form
-                    id="ingredient-form"
-                    method="POST"
-                    action="{{ route('ingredients.store') }}"
-                    data-store-url="{{ route('ingredients.store') }}"
-                    data-update-url-template="{{ route('ingredients.update', ['ingredient' => '__INGREDIENT__']) }}"
-                >
+                <form id="ingredient-form" method="POST" action="{{ route('ingredients.store') }}" data-store-url="{{ route('ingredients.store') }}" data-update-url-template="{{ route('ingredients.update', ['ingredient' => '__INGREDIENT__']) }}">
                     @csrf
                     <input id="ingredient-method" type="hidden" name="_method" value="POST">
                     <div class="modal-header">
                         <div>
                             <h2 class="modal-title fs-5 fw-bold" id="ingredientModalLabel">Tambah Bahan Baru</h2>
-                            <p class="small text-secondary mb-0">Stok fisik awal akan dimulai dari nol.</p>
+                            <!-- <p class="small text-secondary mb-0">Stok fisik awal akan dimulai dari nol.</p> -->
                         </div>
                         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Tutup"></button>
                     </div>

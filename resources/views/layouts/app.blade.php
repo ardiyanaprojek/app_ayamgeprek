@@ -39,7 +39,7 @@
                 <a class="nav-link sidebar-link" href="#laporan">
                     <span aria-hidden="true">▥</span><span>Laporan</span>
                 </a>
-                <a class="nav-link sidebar-link" href="#master-menu">
+                <a class="nav-link sidebar-link {{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}" @if (request()->routeIs('products.*')) aria-current="page" @endif>
                     <span aria-hidden="true">☷</span><span>Data Master Menu</span>
                 </a>
                 <a class="nav-link sidebar-link {{ request()->routeIs('ingredients.*') ? 'active' : '' }}" href="{{ route('ingredients.index') }}" @if (request()->routeIs('ingredients.*')) aria-current="page" @endif>
