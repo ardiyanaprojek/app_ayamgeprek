@@ -7,7 +7,7 @@
         <div>
             <p class="text-secondary small fw-semibold mb-1">OPERASIONAL · {{ now()->format('d M Y') }}</p>
             <h1 class="h3 fw-bold mb-1">Ringkasan hari ini</h1>
-            <p class="text-secondary mb-0">Menampikan ringkasan informasi penjualan hari ini.</p>
+            <p class="text-secondary mb-0">Menampilkan ringkasan informasi penjualan hari ini.</p>
         </div>
         <a class="btn btn-danger text-nowrap" href="{{ route('transactions.index') }}"><span aria-hidden="true">＋</span> Transaksi baru</a>
     </div>
@@ -17,7 +17,7 @@
             <article class="card h-100 shadow-sm border-start border-4 border-success">
                 <div class="card-body">
                     <p class="small text-secondary fw-bold text-uppercase mb-2">↗ Total penjualan tunai</p>
-                    <strong class="h4 fw-bold d-block mb-2">Rp 850.000</strong>
+                    <strong class="h4 fw-bold d-block mb-2 font-numeric">Rp 850.000</strong>
                     <span class="small text-success fw-semibold">100% uang di laci</span>
                 </div>
             </article>
@@ -26,8 +26,8 @@
             <article class="card h-100 shadow-sm border-start border-4 border-info">
                 <div class="card-body">
                     <p class="small text-secondary fw-bold text-uppercase mb-2">▤ Nota transaksi</p>
-                    <strong class="h4 fw-bold d-block mb-2">52 Pesanan</strong>
-                    <span class="small text-secondary">Rata-rata: Rp 16.350</span>
+                    <strong class="h4 fw-bold d-block mb-2 font-numeric">52 Pesanan</strong>
+                    <span class="small text-secondary">Rata-rata: <span class="font-numeric">Rp 16.350</span></span>
                 </div>
             </article>
         </div>
@@ -35,8 +35,8 @@
             <article class="card h-100 shadow-sm border-start border-4 border-danger">
                 <div class="card-body">
                     <p class="small text-secondary fw-bold text-uppercase mb-2">♨ Sisa ayam potong</p>
-                    <strong class="h4 fw-bold d-block mb-2">12 Potong</strong>
-                    <span class="small text-danger fw-semibold">● Menipis · Batas: 10</span>
+                    <strong class="h4 fw-bold d-block mb-2 font-numeric">12 Potong</strong>
+                    <span class="pos-badge pos-badge-warning">Menipis · Batas: 10</span>
                 </div>
             </article>
         </div>
@@ -44,8 +44,8 @@
             <article class="card h-100 shadow-sm border-start border-4 border-warning">
                 <div class="card-body">
                     <p class="small text-secondary fw-bold text-uppercase mb-2">◈ Sisa usus &amp; tahu</p>
-                    <strong class="h4 fw-bold d-block mb-2">8 Porsi / 14 Biji</strong>
-                    <span class="small text-success fw-semibold">● Stok aman</span>
+                    <strong class="h4 fw-bold d-block mb-2 font-numeric">8 Porsi / 14 Biji</strong>
+                    <span class="pos-badge pos-badge-safe">Stok aman</span>
                 </div>
             </article>
         </div>
@@ -59,11 +59,11 @@
                         <h2 class="h6 fw-bold mb-1">Sisa stok fisik bahan utama</h2>
                         <p class="small text-secondary mb-0">Sisa malam ini otomatis menjadi stok buka esok pagi.</p>
                     </div>
-                    <a class="small text-danger fw-semibold text-nowrap" href="{{ route('stocks.index') }}">Lihat stok →</a>
+                    <a class="small text-danger fw-semibold text-nowrap" href="{{ route('reports.transactions') }}">Laporan transaksi →</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
+                        <table class="table table-hover align-middle mb-0 pos-table">
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col">Bahan baku</th>
@@ -76,31 +76,31 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">Ayam Potong</th>
-                                    <td>50 ptg</td>
-                                    <td class="text-danger">−38 ptg</td>
-                                    <td class="fw-semibold">12 potong</td>
-                                    <td><span class="badge bg-danger-subtle text-danger">Menipis</span></td>
+                                    <td class="font-numeric">50 ptg</td>
+                                    <td class="text-danger font-numeric">−38 ptg</td>
+                                    <td class="fw-semibold font-numeric">12 potong</td>
+                                    <td><span class="pos-badge pos-badge-warning">Menipis</span></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Usus Bersih</th>
-                                    <td>20 prs</td>
-                                    <td class="text-danger">−12 prs</td>
-                                    <td class="fw-semibold">8 porsi</td>
-                                    <td><span class="badge bg-success-subtle text-success">Aman</span></td>
+                                    <td class="font-numeric">20 prs</td>
+                                    <td class="text-danger font-numeric">−12 prs</td>
+                                    <td class="fw-semibold font-numeric">8 porsi</td>
+                                    <td><span class="pos-badge pos-badge-safe">Aman</span></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Tahu Mentah</th>
-                                    <td>25 biji</td>
-                                    <td class="text-danger">−11 biji</td>
-                                    <td class="fw-semibold">14 biji</td>
-                                    <td><span class="badge bg-success-subtle text-success">Aman</span></td>
+                                    <td class="font-numeric">25 biji</td>
+                                    <td class="text-danger font-numeric">−11 biji</td>
+                                    <td class="fw-semibold font-numeric">14 biji</td>
+                                    <td><span class="pos-badge pos-badge-safe">Aman</span></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Telur Ayam</th>
-                                    <td>30 btr</td>
-                                    <td class="text-danger">−18 btr</td>
-                                    <td class="fw-semibold">12 butir</td>
-                                    <td><span class="badge bg-success-subtle text-success">Aman</span></td>
+                                    <td class="font-numeric">30 btr</td>
+                                    <td class="text-danger font-numeric">−18 btr</td>
+                                    <td class="fw-semibold font-numeric">12 butir</td>
+                                    <td><span class="pos-badge pos-badge-safe">Aman</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -139,8 +139,8 @@
                             <div class="d-flex justify-content-between gap-2 mt-1 small text-secondary"><span>2× Geprek Dada, 2× Usus</span><span class="text-success text-nowrap">19:05 · Tunai 50k</span></div>
                         </article>
                     </div>
-                    <a class="btn btn-danger mt-auto d-flex justify-content-between align-items-center" id="transaksi" href="#transaksi">
-                        Buka kasir transaksi <span aria-hidden="true">→</span>
+                    <a class="btn btn-danger mt-auto d-flex justify-content-between align-items-center" id="transaksi" href="{{ route('reports.transactions') }}">
+                        Lihat laporan transaksi <span aria-hidden="true">→</span>
                     </a>
                 </div>
             </div>

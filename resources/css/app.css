@@ -1,48 +1,85 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
 :root {
-    --bs-primary: #e11d48;
-    --bs-primary-rgb: 225, 29, 72;
+    --bs-primary: #6366f1;
+    --bs-primary-rgb: 99, 102, 241;
     --bs-danger: #e11d48;
     --bs-danger-rgb: 225, 29, 72;
     --bs-body-bg: #f8fafc;
-    --bs-body-color: #0f172a;
+    --bs-body-color: #1e293b;
+    --pos-bg-body: #f8fafc;
+    --pos-bg-surface: #fff;
+    --pos-border: #e2e8f0;
+    --pos-brand: #e11d48;
+    --pos-brand-hover: #be123c;
+    --pos-primary: #6366f1;
+    --pos-text-main: #1e293b;
+    --pos-text-muted: #64748b;
+    --pos-radius: 12px;
+    --pos-radius-sm: 8px;
 }
 
 body {
     min-width: 320px;
-    background: var(--bs-body-bg);
+    background: var(--pos-bg-body);
+    color: var(--pos-text-main);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* bagian sidebar */
+.font-numeric,
+.pos-number,
+.table td,
+.pos-price-tag,
+.badge-count {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.01em;
+}
+
 .app-sidebar {
     position: fixed;
     z-index: 1040;
-    inset: 0 auto 0 0; /*perlu penjelasan lebih*/
+    inset: 0 auto 0 0;
     display: flex;
-    width: 250px;
+    width: 260px;
     flex-direction: column;
-    overflow-y: auto; /*perlu penjelasan lebih*/
+    overflow-y: auto;
+    border-right: 1px solid var(--pos-border);
+    background: var(--pos-bg-surface);
+    transition: transform .2s ease;
 }
 
 .brand {
-    display: flex;
-    justify-content: space-between;
     font-size: 14px;
 }
 
 .brand-mark,
 .mobile-brand-mark {
-    width: 50px;
-    height: 50px;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 auto;
+    font-size: .75rem;
+}
+
+.sidebar-section {
+    padding: 1.15rem .75rem .4rem;
+    color: #94a3b8;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
 }
 
 .sidebar-link {
     display: flex;
     align-items: center;
     gap: .75rem;
-    color: #cbd5e1;
+    padding: .65rem .8rem;
+    border-radius: var(--pos-radius-sm);
+    color: var(--pos-text-muted);
     font-size: .875rem;
+    font-weight: 600;
+    transition: background-color .15s ease, color .15s ease;
 }
 
 .sidebar-link > span:first-child {
@@ -54,29 +91,40 @@ body {
 
 .sidebar-link:hover,
 .sidebar-link:focus {
-    color: #fff;
-    background: #1e293b;
+    color: var(--pos-text-main);
+    background: #f8fafc;
 }
 
 .nav-pills .sidebar-link.active {
     color: #fff;
-    background: #e11d48;
+    background: var(--pos-primary);
+    box-shadow: 0 4px 12px rgb(99 102 241 / 18%);
 }
 
 .sidebar-footer .btn-warning {
-    background: #ea580c;
-    border-color: #ea580c;
-    color: #fff;
+    border-color: #ffedd5;
+    background: #fff7ed;
+    color: #c2410c;
 }
 
 .avatar {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 auto;
+    background: #ffe4e6 !important;
+    color: #be123c;
 }
 
 .app-main {
     min-height: 100vh;
-    margin-left: 250px;
+    margin-left: 260px;
+}
+
+.app-header {
+    min-height: 70px;
+    border-bottom: 1px solid var(--pos-border);
+    background: rgb(255 255 255 / 96%);
+    backdrop-filter: blur(12px);
 }
 
 .desktop-store-name {
@@ -89,6 +137,13 @@ body {
     display: none;
 }
 
+.printer-status {
+    color: #475569;
+    font-size: .75rem;
+    white-space: nowrap;
+}
+
+.printer-status-dot,
 .status-dot {
     display: inline-block;
     width: 7px;
@@ -98,7 +153,160 @@ body {
     background: #16a34a;
 }
 
+.status-dot {
+    background: #16a34a;
+}
+
 .sidebar-backdrop {
+    display: none;
+}
+
+.pos-card,
+.app-main .card {
+    border: 1px solid #f1f5f9;
+    border-radius: var(--pos-radius);
+    background: #fff;
+    box-shadow: 0 1px 3px rgb(15 23 42 / 3%), 0 4px 10px rgb(15 23 42 / 2%) !important;
+}
+
+.app-main .card-header,
+.app-main .card-footer {
+    border-color: #f1f5f9;
+    background: #fff;
+}
+
+.app-main .form-control,
+.app-main .form-select {
+    border-color: #e2e8f0;
+    border-radius: var(--pos-radius-sm);
+}
+
+.app-main .form-control:focus,
+.app-main .form-select:focus {
+    border-color: #a5b4fc;
+    box-shadow: 0 0 0 3px rgb(99 102 241 / 10%);
+}
+
+.btn-danger {
+    --bs-btn-bg: var(--pos-brand);
+    --bs-btn-border-color: var(--pos-brand);
+    --bs-btn-hover-bg: var(--pos-brand-hover);
+    --bs-btn-hover-border-color: var(--pos-brand-hover);
+    --bs-btn-active-bg: var(--pos-brand-hover);
+    --bs-btn-active-border-color: var(--pos-brand-hover);
+}
+
+.btn-pos-primary {
+    border-color: var(--pos-primary);
+    border-radius: var(--pos-radius-sm);
+    background: var(--pos-primary);
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-pos-primary:hover {
+    border-color: #4f46e5;
+    background: #4f46e5;
+    color: #fff;
+}
+
+.btn-pos-edit {
+    padding: 6px 12px;
+    border: 0;
+    border-radius: 6px;
+    background: #ede9fe;
+    color: #6366f1;
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.btn-pos-edit:hover {
+    background: #ddd6fe;
+    color: #4f46e5;
+}
+
+.pos-table th {
+    padding: 14px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    background: #fff;
+    color: #64748b;
+    font-size: .78rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.pos-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #f8fafc;
+    font-size: .875rem;
+    vertical-align: middle;
+}
+
+.pos-table tbody tr:hover {
+    background: #fafbfd;
+}
+
+.pos-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: .775rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.pos-badge::before {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    content: '';
+}
+
+.pos-badge-safe {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.pos-badge-safe::before {
+    background: #16a34a;
+}
+
+.pos-badge-warning {
+    background: #fef9c3;
+    color: #a16207;
+}
+
+.pos-badge-warning::before {
+    background: #eab308;
+}
+
+.pos-badge-danger {
+    background: #ffe4e6;
+    color: #be123c;
+}
+
+.pos-badge-danger::before {
+    background: #e11d48;
+}
+
+.pos-pagination .page-link {
+    margin: 0 2px;
+    padding: 6px 12px;
+    border: 0;
+    border-radius: 6px;
+    color: #64748b;
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+.pos-pagination .page-item.active .page-link {
+    background: #ede9fe;
+    color: #6366f1;
+}
+
+.mobile-bottom-nav {
     display: none;
 }
 
@@ -106,7 +314,6 @@ body {
     .app-sidebar {
         width: min(290px, calc(100vw - 56px));
         transform: translateX(-100%);
-        transition: transform .2s ease;
     }
 
     .app-sidebar.is-open {
@@ -142,8 +349,9 @@ body {
         min-height: 66px;
         grid-template-columns: repeat(5, 1fr);
         padding: .4rem .5rem max(.4rem, env(safe-area-inset-bottom));
-        border-top: 1px solid #1e293b;
-        background: #0f172a;
+        border-top: 1px solid #e2e8f0;
+        background: #fff;
+        box-shadow: 0 -4px 16px rgb(15 23 42 / 5%);
     }
 
     .bottom-nav-link {
@@ -170,33 +378,37 @@ body {
     }
 
     .bottom-nav-link.active {
-        color: #fb7185;
+        color: #6366f1;
         font-weight: 700;
     }
 
     .bottom-nav-link.active > span {
         color: #fff;
-        background: #e11d48;
+        background: #6366f1;
     }
 
     .app-main > main {
         padding-bottom: 6rem !important;
     }
-
 }
 
-@media (max-width: 575.98px) {
-    .brand-mark,
-    .mobile-brand-mark {
-        width: 32px;
-        height: 32px;
-        font-size: .7rem;
-    }
-
-    .desktop-store-name {
+@media (max-width: 991.98px) {
+    .desktop-product-table {
         display: none;
     }
 
+    .product-mobile-list {
+        display: block !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .brand-mark {
+        width: 36px;
+        height: 36px;
+    }
+
+    .desktop-store-name,
     .mobile-store-name,
     .mobile-store-location,
     .mobile-brand-mark {
@@ -210,6 +422,10 @@ body {
 
     .mobile-store-location {
         font-size: .6rem;
+    }
+
+    .printer-status {
+        display: none;
     }
 
     .app-main > main {

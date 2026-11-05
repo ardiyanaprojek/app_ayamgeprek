@@ -23,6 +23,33 @@ class TransactionController extends Controller
         ]);
     }
 
+    public function history(Request $request): View
+    {
+        $validated = $request->validate([
+            'q' => ['nullable', 'string', 'max:50'],
+            'from' => ['nullable', 'date_format:Y-m-d'],
+            'to' => ['nullable', 'date_format:Y-m-d'],
+        ]);
+
+        if (isset($validated['from'], $validated['to'])) {
+            $request->validate(['to' => ['after_or_equal:from']]);
+        }
+
+        $transactions = Transaction::query()
+            ->with('items.product')
+            ->when($validated['q'] ?? null, fn ($query, $search) => $query->where('nomor_struk', 'like', '%'.$search.'%'))
+            ->when($validated['from'] ?? null, fn ($query, $from) => $query->whereDate('created_at', '>=', $from))
+            ->when($validated['to'] ?? null, fn ($query, $to) => $query->whereDate('created_at', '<=', $to))
+            ->orderByDesc('created_at')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('transactions.history', [
+            'transactions' => $transactions,
+            'filters' => $validated,
+        ]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([

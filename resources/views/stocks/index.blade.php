@@ -7,8 +7,9 @@
         <div>
             <p class="text-secondary small fw-semibold mb-1">INVENTARIS</p>
             <h1 class="h3 fw-bold mb-1">Manajemen Stok</h1>
-            <p class="text-secondary mb-0">Catat pembelian baru, penyesuaian stok, dan barang rusak/basi.</p>
+            <p class="text-secondary mb-0">Catat stok masuk dan bahan rusak/basi. Penjualan dipotong otomatis dari kasir.</p>
         </div>
+        <a class="btn btn-outline-secondary text-nowrap" href="{{ route('stocks.history') }}">Riwayat stok</a>
     </div>
 
     @if (session('success'))
@@ -36,7 +37,7 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
+                        <table class="table table-hover align-middle mb-0 pos-table">
                             <thead class="table-light">
                                 <tr>
                                     <th class="ps-4" scope="col">Bahan</th>
@@ -54,15 +55,15 @@
                                     <tr>
                                         <td class="ps-4 fw-semibold">{{ $ingredient->nama_bahan }}</td>
                                         <td>{{ ucfirst($ingredient->satuan) }}</td>
-                                        <td>{{ $ingredient->stok_saat_ini }} {{ $ingredient->satuan }}</td>
-                                        <td>{{ $ingredient->stok_minimum }} {{ $ingredient->satuan }}</td>
+                                        <td class="font-numeric">{{ $ingredient->stok_saat_ini }} {{ $ingredient->satuan }}</td>
+                                        <td class="font-numeric">{{ $ingredient->stok_minimum }} {{ $ingredient->satuan }}</td>
                                         <td>
                                             @if ($status === 'Aman')
-                                                <span class="badge bg-success-subtle text-success">Aman</span>
+                                                <span class="pos-badge pos-badge-safe">Aman</span>
                                             @elseif ($status === 'Habis')
-                                                <span class="badge bg-danger-subtle text-danger">Habis</span>
+                                                <span class="pos-badge pos-badge-danger">Habis</span>
                                             @else
-                                                <span class="badge bg-warning-subtle text-warning-emphasis">Menipis</span>
+                                                <span class="pos-badge pos-badge-warning">Menipis</span>
                                             @endif
                                         </td>
                                     </tr>
@@ -100,7 +101,6 @@
                             <select class="form-select" id="tipe" name="tipe" required>
                                 <option value="masuk">Belanja masuk</option>
                                 <option value="rusak_basi">Rusak / basi</option>
-                                <option value="penjualan">Penjualan</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -116,27 +116,6 @@
                 </div>
             </section>
 
-            <section class="card shadow-sm mt-4">
-                <div class="card-header bg-white py-3">
-                    <h2 class="h6 fw-bold mb-0">Riwayat terbaru</h2>
-                </div>
-                <div class="card-body">
-                    @forelse ($stockLogs as $log)
-                        <div class="border rounded p-2 mb-2">
-                            <div class="d-flex justify-content-between gap-2">
-                                <strong>{{ $log->ingredient?->nama_bahan ?? 'Bahan' }}</strong>
-                                <span class="badge bg-light text-dark">{{ $log->tipe }}</span>
-                            </div>
-                            <div class="small text-secondary mt-1">
-                                {{ $log->jumlah }} {{ $log->ingredient?->satuan ?? 'unit' }} • {{ $log->tanggal->format('d M Y') }}
-                            </div>
-                            <div class="small mt-1">{{ $log->keterangan ?? 'Tanpa keterangan' }}</div>
-                        </div>
-                    @empty
-                        <div class="text-secondary small">Belum ada riwayat mutasi stok.</div>
-                    @endforelse
-                </div>
-            </section>
         </div>
     </div>
 @endsection

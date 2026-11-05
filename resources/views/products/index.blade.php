@@ -42,7 +42,7 @@
             <form class="row g-2 align-items-center" method="GET" action="{{ route('products.index') }}">
                 <div class="col-12 col-md-6 col-lg-5">
                     <label class="visually-hidden" for="product-search">Cari nama menu</label>
-                    <input class="form-control" id="product-search" name="q" type="search" value="{{ $search }}" placeholder="Cari nama menu...">
+                    <input class="form-control" id="product-search" name="q" type="search" value="{{ $search }}" placeholder="⌕  Cari nama menu...">
                 </div>
                 <div class="col-auto">
                     <button class="btn btn-outline-secondary" type="submit">Cari</button>
@@ -56,8 +56,8 @@
         </div>
 
         <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
+            <div class="table-responsive desktop-product-table">
+                <table class="table table-hover align-middle mb-0 pos-table">
                     <thead class="table-light">
                         <tr>
                             <th class="ps-4" scope="col">No</th>
@@ -73,7 +73,7 @@
                             <tr>
                                 <td class="ps-4">{{ $products->firstItem() + $loop->index }}</td>
                                 <td class="fw-semibold">{{ $product->nama_menu }}</td>
-                                <td>Rp {{ number_format($product->harga_jual, 0, ',', '.') }}</td>
+                                <td class="font-numeric">Rp {{ number_format($product->harga_jual, 0, ',', '.') }}</td>
                                 <td>{{ $product->ingredient?->nama_bahan ?? 'Tanpa bahan utama' }}</td>
                                 <td>
                                     @if ($product->ingredient_id && $product->jumlah_potong > 0)
@@ -83,7 +83,7 @@
                                     @endif
                                 </td>
                                 <td class="text-end pe-4">
-                                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#productModal" data-mode="edit" data-id="{{ $product->id }}" data-name="{{ $product->nama_menu }}" data-price="{{ $product->harga_jual }}" data-ingredient-id="{{ $product->ingredient_id ?? '' }}" data-quantity="{{ $product->jumlah_potong }}">
+                                    <button class="btn btn-sm btn-pos-edit" type="button" data-bs-toggle="modal" data-bs-target="#productModal" data-mode="edit" data-id="{{ $product->id }}" data-name="{{ $product->nama_menu }}" data-price="{{ $product->harga_jual }}" data-ingredient-id="{{ $product->ingredient_id ?? '' }}" data-quantity="{{ $product->jumlah_potong }}">
                                         Edit
                                     </button>
                                     <form class="d-inline" method="POST" action="{{ route('products.destroy', $product) }}" onsubmit="return confirm('Yakin ingin menghapus menu ini?')">
@@ -103,10 +103,46 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="product-mobile-list d-none p-3">
+                @forelse ($products as $product)
+                    <article class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start justify-content-between gap-3 mb-2">
+                                <div>
+                                    <span class="small text-secondary">Menu #{{ $products->firstItem() + $loop->index }}</span>
+                                    <h2 class="h6 fw-bold mb-0 mt-1">{{ $product->nama_menu }}</h2>
+                                </div>
+                                <strong class="font-numeric text-nowrap">Rp {{ number_format($product->harga_jual, 0, ',', '.') }}</strong>
+                            </div>
+                            <div class="small text-secondary mb-3">
+                                {{ $product->ingredient?->nama_bahan ?? 'Tanpa bahan utama' }}
+                                @if ($product->ingredient_id && $product->jumlah_potong > 0)
+                                    · {{ $product->jumlah_potong }} {{ $product->ingredient?->satuan ?? 'unit' }} / porsi
+                                @else
+                                    · Tidak memotong stok
+                                @endif
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-pos-edit flex-fill" type="button" data-bs-toggle="modal" data-bs-target="#productModal" data-mode="edit" data-id="{{ $product->id }}" data-name="{{ $product->nama_menu }}" data-price="{{ $product->harga_jual }}" data-ingredient-id="{{ $product->ingredient_id ?? '' }}" data-quantity="{{ $product->jumlah_potong }}">Edit menu</button>
+                                <form class="flex-fill" method="POST" action="{{ route('products.destroy', $product) }}" onsubmit="return confirm('Yakin ingin menghapus menu ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-outline-danger w-100" type="submit">Hapus</button>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
+                @empty
+                    <div class="py-4 text-center text-secondary">
+                        {{ $search !== '' ? 'Menu tidak ditemukan.' : 'Belum ada data menu.' }}
+                    </div>
+                @endforelse
+            </div>
         </div>
 
         @if ($products->hasPages())
-            <div class="card-footer bg-white">
+            <div class="card-footer bg-white pos-pagination">
                 {{ $products->links() }}
             </div>
         @endif

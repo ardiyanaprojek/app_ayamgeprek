@@ -56,8 +56,8 @@
         </div>
 
         <div class="card-body p-0">
-            <div class="d-none d-md-block table-responsive">
-                <table class="table table-hover align-middle mb-0">
+            <div class="d-none d-lg-block table-responsive">
+                <table class="table table-hover align-middle mb-0 pos-table">
                     <thead class="table-light">
                         <tr>
                             <th class="ps-4" scope="col">No</th>
@@ -82,15 +82,15 @@
                                 <td>{{ $ingredient->stok_minimum }} {{ $ingredient->satuan }}</td>
                                 <td>
                                     @if ($status === 'Aman')
-                                        <span class="badge bg-success-subtle text-success">Aman</span>
+                                        <span class="pos-badge pos-badge-safe">Aman</span>
                                     @elseif ($status === 'Habis')
-                                        <span class="badge bg-danger-subtle text-danger">Habis</span>
+                                        <span class="pos-badge pos-badge-danger">Habis</span>
                                     @else
-                                        <span class="badge bg-warning-subtle text-warning-emphasis">Menipis</span>
+                                        <span class="pos-badge pos-badge-warning">Menipis</span>
                                     @endif
                                 </td>
                                 <td class="text-end pe-4">
-                                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#ingredientModal" data-mode="edit" data-id="{{ $ingredient->id }}" data-name="{{ $ingredient->nama_bahan }}" data-unit="{{ $ingredient->satuan }}" data-minimum="{{ $ingredient->stok_minimum }}">
+                                    <button class="btn btn-sm btn-pos-edit" type="button" data-bs-toggle="modal" data-bs-target="#ingredientModal" data-mode="edit" data-id="{{ $ingredient->id }}" data-name="{{ $ingredient->nama_bahan }}" data-unit="{{ $ingredient->satuan }}" data-minimum="{{ $ingredient->stok_minimum }}">
                                         Edit
                                     </button>
                                     <form class="d-inline" method="POST" action="{{ route('ingredients.destroy', $ingredient) }}" onsubmit="return confirm('Yakin ingin menghapus bahan baku ini?')">
@@ -111,7 +111,7 @@
                 </table>
             </div>
 
-            <div class="d-block d-md-none p-3">
+            <div class="d-block d-lg-none p-3">
                 @forelse ($ingredients as $ingredient)
                     @php
                         $status = $ingredient->stok_saat_ini > $ingredient->stok_minimum
@@ -126,11 +126,11 @@
                                     <h2 class="h6 fw-bold mb-0 mt-1">{{ $ingredient->nama_bahan }}</h2>
                                 </div>
                                 @if ($status === 'Aman')
-                                    <span class="badge bg-success-subtle text-success">Aman</span>
+                                    <span class="pos-badge pos-badge-safe">Aman</span>
                                 @elseif ($status === 'Habis')
-                                    <span class="badge bg-danger-subtle text-danger">Habis</span>
+                                    <span class="pos-badge pos-badge-danger">Habis</span>
                                 @else
-                                    <span class="badge bg-warning-subtle text-warning-emphasis">Menipis</span>
+                                    <span class="pos-badge pos-badge-warning">Menipis</span>
                                 @endif
                             </div>
                             <div class="row g-2 small mb-3">
@@ -142,7 +142,7 @@
                                 <div class="col-6 text-end">{{ $ingredient->stok_minimum }} {{ $ingredient->satuan }}</div>
                             </div>
                             <div class="d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-primary flex-fill" type="button" data-bs-toggle="modal" data-bs-target="#ingredientModal" data-mode="edit" data-id="{{ $ingredient->id }}" data-name="{{ $ingredient->nama_bahan }}" data-unit="{{ $ingredient->satuan }}" data-minimum="{{ $ingredient->stok_minimum }}"
+                                <button class="btn btn-sm btn-pos-edit flex-fill" type="button" data-bs-toggle="modal" data-bs-target="#ingredientModal" data-mode="edit" data-id="{{ $ingredient->id }}" data-name="{{ $ingredient->nama_bahan }}" data-unit="{{ $ingredient->satuan }}" data-minimum="{{ $ingredient->stok_minimum }}"
                                 >Edit</button>
                                 <form class="flex-fill" method="POST" action="{{ route('ingredients.destroy', $ingredient) }}" onsubmit="return confirm('Yakin ingin menghapus bahan baku ini?')">
                                     @csrf
@@ -161,7 +161,7 @@
         </div>
 
         @if ($ingredients->hasPages())
-            <div class="card-footer bg-white">
+            <div class="card-footer bg-white pos-pagination">
                 {{ $ingredients->links() }}
             </div>
         @endif

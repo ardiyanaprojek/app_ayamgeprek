@@ -75,4 +75,57 @@ class StockTest extends TestCase
             'stok_saat_ini' => 10,
         ]);
     }
+
+    public function test_store_rejects_sales_as_manual_stock_mutation(): void
+    {
+        $ingredient = Ingredient::create([
+            'nama_bahan' => 'Ayam Potong',
+            'satuan' => 'potong',
+            'stok_saat_ini' => 10,
+            'stok_minimum' => 3,
+        ]);
+
+        $this->from(route('stocks.index'))
+            ->post(route('stocks.store'), [
+                'ingredient_id' => $ingredient->id,
+                'tipe' => 'penjualan',
+                'jumlah' => 2,
+            ])
+            ->assertRedirect(route('stocks.index'))
+            ->assertSessionHasErrors('tipe');
+
+        $this->assertDatabaseHas('ingredients', [
+            'id' => $ingredient->id,
+            'stok_saat_ini' => 10,
+        ]);
+        $this->assertDatabaseCount('stock_logs', 0);
+    }
+
+    public function test_stock_history_is_available_on_its_own_page(): void
+    {
+        $ingredient = Ingredient::create([
+            'nama_bahan' => 'Telur',
+            'satuan' => 'butir',
+            'stok_saat_ini' => 4,
+            'stok_minimum' => 2,
+        ]);
+
+        \App\Models\StockLog::create([
+            'ingredient_id' => $ingredient->id,
+            'tipe' => 'penjualan',
+            'jumlah' => 1,
+            'tanggal' => now()->toDateString(),
+            'keterangan' => 'Penjualan Telur',
+        ]);
+
+        $this->get(route('stocks.history'))
+            ->assertOk()
+            ->assertSee('Riwayat Stok')
+            ->assertSee('Penjualan kasir')
+            ->assertSee('Telur');
+
+        $this->get(route('stocks.index'))
+            ->assertOk()
+            ->assertDontSee('Riwayat terbaru');
+    }
 }

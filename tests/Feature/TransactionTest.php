@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Ingredient;
 use App\Models\Product;
+use App\Models\Transaction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -88,5 +89,22 @@ class TransactionTest extends TestCase
             'id' => $ingredient->id,
             'stok_saat_ini' => 2,
         ]);
+    }
+
+    public function test_transaction_history_displays_saved_receipts(): void
+    {
+        Transaction::create([
+            'nomor_struk' => 'NOTA-RIWAYAT-1',
+            'total_bayar' => 25000,
+            'nominal_diterima' => 50000,
+            'kembalian' => 25000,
+            'metode_bayar' => 'TUNAI',
+        ]);
+
+        $this->get(route('transaction-history.index'))
+            ->assertOk()
+            ->assertSee('Riwayat Transaksi')
+            ->assertSee('NOTA-RIWAYAT-1')
+            ->assertSee('Diterima');
     }
 }

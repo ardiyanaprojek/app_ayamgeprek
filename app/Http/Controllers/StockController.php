@@ -17,16 +17,36 @@ class StockController extends Controller
             ->orderBy('nama_bahan')
             ->get();
 
-        $stockLogs = StockLog::query()
-            ->with('ingredient')
-            ->orderByDesc('tanggal')
-            ->orderByDesc('id')
-            ->limit(10)
-            ->get();
-
         return view('stocks.index', [
             'ingredients' => $ingredients,
-            'stockLogs' => $stockLogs,
+        ]);
+    }
+
+    public function history(Request $request): View
+    {
+        $validated = $request->validate([
+            'from' => ['nullable', 'date_format:Y-m-d'],
+            'to' => ['nullable', 'date_format:Y-m-d'],
+            'tipe' => ['nullable', Rule::in(['masuk', 'rusak_basi', 'penjualan'])],
+        ]);
+
+        if (isset($validated['from'], $validated['to'])) {
+            $request->validate(['to' => ['after_or_equal:from']]);
+        }
+
+        $logs = StockLog::query()
+            ->with('ingredient')
+            ->when($validated['from'] ?? null, fn ($query, $from) => $query->whereDate('tanggal', '>=', $from))
+            ->when($validated['to'] ?? null, fn ($query, $to) => $query->whereDate('tanggal', '<=', $to))
+            ->when($validated['tipe'] ?? null, fn ($query, $type) => $query->where('tipe', $type))
+            ->orderByDesc('tanggal')
+            ->orderByDesc('id')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('stocks.history', [
+            'logs' => $logs,
+            'filters' => $validated,
         ]);
     }
 
@@ -34,7 +54,7 @@ class StockController extends Controller
     {
         $validated = $request->validate([
             'ingredient_id' => ['required', 'integer', 'exists:ingredients,id'],
-            'tipe' => ['required', Rule::in(['masuk', 'penjualan', 'rusak_basi'])],
+            'tipe' => ['required', Rule::in(['masuk', 'rusak_basi'])],
             'jumlah' => ['required', 'integer', 'min:1'],
             'keterangan' => ['nullable', 'string', 'max:255'],
         ]);

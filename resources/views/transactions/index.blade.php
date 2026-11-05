@@ -9,6 +9,10 @@
             <h1 class="h3 fw-bold mb-1">Transaksi Penjualan</h1>
             <p class="text-secondary mb-0">Pilih menu, hitung total, dan catat uang tunai yang diterima.</p>
         </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-outline-secondary text-nowrap" href="{{ route('transaction-history.index') }}">Riwayat transaksi</a>
+            <a class="btn btn-outline-secondary text-nowrap" href="{{ route('reports.transactions') }}">Laporan transaksi</a>
+        </div>
     </div>
 
     @if (session('success'))
@@ -48,7 +52,7 @@
                                     <div class="card-body d-flex flex-column">
                                         <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                                             <h3 class="h6 fw-bold mb-0">{{ $product->nama_menu }}</h3>
-                                            <span class="badge bg-danger-subtle text-danger">Rp {{ number_format($product->harga_jual, 0, ',', '.') }}</span>
+                                            <span class="badge rounded-pill bg-danger-subtle text-danger font-numeric">Rp {{ number_format($product->harga_jual, 0, ',', '.') }}</span>
                                         </div>
                                         <p class="small text-secondary mb-2">
                                             @if ($product->ingredient_id && $product->jumlah_potong > 0)
@@ -87,15 +91,21 @@
                         <div class="border-top pt-3 mt-3">
                             <div class="d-flex justify-content-between small text-secondary mb-2">
                                 <span>Total</span>
-                                <strong id="cart-total">Rp 0</strong>
+                                <strong class="font-numeric" id="cart-total">Rp 0</strong>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold" for="nominal_diterima">Uang diterima</label>
                                 <input class="form-control" id="nominal_diterima" name="nominal_diterima" type="number" min="0" step="100" placeholder="50000" required>
                             </div>
+                            <div class="d-flex flex-wrap gap-2 mb-3" aria-label="Nominal tunai cepat">
+                                <button class="btn btn-sm btn-outline-secondary" type="button" data-cash-amount="10000">Rp 10.000</button>
+                                <button class="btn btn-sm btn-outline-secondary" type="button" data-cash-amount="20000">Rp 20.000</button>
+                                <button class="btn btn-sm btn-outline-secondary" type="button" data-cash-amount="50000">Rp 50.000</button>
+                                <button class="btn btn-sm btn-outline-secondary" type="button" data-cash-amount="100000">Rp 100.000</button>
+                            </div>
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <span class="small text-secondary">Kembalian</span>
-                                <strong id="change-display">Rp 0</strong>
+                                <strong class="font-numeric" id="change-display">Rp 0</strong>
                             </div>
                             <button class="btn btn-danger w-100" type="submit">Selesaikan transaksi</button>
                         </div>
@@ -230,6 +240,13 @@
         });
 
         document.querySelector('#nominal_diterima').addEventListener('input', renderCart);
+
+        document.querySelectorAll('[data-cash-amount]').forEach((button) => {
+            button.addEventListener('click', () => {
+                document.querySelector('#nominal_diterima').value = button.dataset.cashAmount;
+                renderCart();
+            });
+        });
 
         document.querySelector('#transaction-form').addEventListener('submit', (event) => {
             if (cart.size === 0) {
