@@ -3,147 +3,123 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
-        <div>
-            <p class="text-secondary small fw-semibold mb-1">OPERASIONAL · {{ now()->format('d M Y') }}</p>
-            <h1 class="h3 fw-bold mb-1">Ringkasan hari ini</h1>
-            <p class="text-secondary mb-0">Menampilkan ringkasan informasi penjualan hari ini.</p>
-        </div>
-        <a class="btn btn-danger text-nowrap" href="{{ route('transactions.index') }}"><span aria-hidden="true">＋</span> Transaksi baru</a>
-    </div>
+	@php($maxSales = max(1, (float) $salesChart->max('total')))
 
-    <section class="row g-3 mb-4" aria-label="Ringkasan penjualan dan stok">
-        <div class="col-6 col-xl-3">
-            <article class="card h-100 shadow-sm border-start border-4 border-success">
-                <div class="card-body">
-                    <p class="small text-secondary fw-bold text-uppercase mb-2">↗ Total penjualan tunai</p>
-                    <strong class="h4 fw-bold d-block mb-2 font-numeric">Rp 850.000</strong>
-                    <span class="small text-success fw-semibold">100% uang di laci</span>
-                </div>
-            </article>
-        </div>
-        <div class="col-6 col-xl-3">
-            <article class="card h-100 shadow-sm border-start border-4 border-info">
-                <div class="card-body">
-                    <p class="small text-secondary fw-bold text-uppercase mb-2">▤ Nota transaksi</p>
-                    <strong class="h4 fw-bold d-block mb-2 font-numeric">52 Pesanan</strong>
-                    <span class="small text-secondary">Rata-rata: <span class="font-numeric">Rp 16.350</span></span>
-                </div>
-            </article>
-        </div>
-        <div class="col-6 col-xl-3">
-            <article class="card h-100 shadow-sm border-start border-4 border-danger">
-                <div class="card-body">
-                    <p class="small text-secondary fw-bold text-uppercase mb-2">♨ Sisa ayam potong</p>
-                    <strong class="h4 fw-bold d-block mb-2 font-numeric">12 Potong</strong>
-                    <span class="pos-badge pos-badge-warning">Menipis · Batas: 10</span>
-                </div>
-            </article>
-        </div>
-        <div class="col-6 col-xl-3">
-            <article class="card h-100 shadow-sm border-start border-4 border-warning">
-                <div class="card-body">
-                    <p class="small text-secondary fw-bold text-uppercase mb-2">◈ Sisa usus &amp; tahu</p>
-                    <strong class="h4 fw-bold d-block mb-2 font-numeric">8 Porsi / 14 Biji</strong>
-                    <span class="pos-badge pos-badge-safe">Stok aman</span>
-                </div>
-            </article>
-        </div>
-    </section>
+	<section class="dashboard-page">
+		<div class="dashboard-heading">
+			<div>
+				<p class="dashboard-eyebrow">RINGKASAN OPERASIONAL</p>
+				<!-- <h1 class="h3 mb-1">Selamat datang kembali</h1> -->
+				<p class="text-secondary mb-0">Pantau aktivitas Ayam Geprek Istiqomah hari ini.</p>
+			</div>
+			<a class="btn btn-pos-primary dashboard-primary-action" href="{{ route('transactions.index') }}">
+				<span aria-hidden="true">＋</span> Buka kasir
+			</a>
+		</div>
 
-    <div class="row g-3">
-        <section class="col-12 col-xl-7" id="stok">
-            <div class="card h-100 shadow-sm">
-                <div class="card-header bg-white d-flex align-items-start justify-content-between gap-3 py-3">
-                    <div>
-                        <h2 class="h6 fw-bold mb-1">Sisa stok fisik bahan utama</h2>
-                        <p class="small text-secondary mb-0">Sisa malam ini otomatis menjadi stok buka esok pagi.</p>
-                    </div>
-                    <a class="small text-danger fw-semibold text-nowrap" href="{{ route('reports.transactions') }}">Laporan transaksi →</a>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0 pos-table">
-                            <thead class="table-light">
-                                <tr>
-                                    <th scope="col">Bahan baku</th>
-                                    <th scope="col">Stok awal</th>
-                                    <th scope="col">Terjual</th>
-                                    <th scope="col">Sisa fisik</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Ayam Potong</th>
-                                    <td class="font-numeric">50 ptg</td>
-                                    <td class="text-danger font-numeric">−38 ptg</td>
-                                    <td class="fw-semibold font-numeric">12 potong</td>
-                                    <td><span class="pos-badge pos-badge-warning">Menipis</span></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Usus Bersih</th>
-                                    <td class="font-numeric">20 prs</td>
-                                    <td class="text-danger font-numeric">−12 prs</td>
-                                    <td class="fw-semibold font-numeric">8 porsi</td>
-                                    <td><span class="pos-badge pos-badge-safe">Aman</span></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Tahu Mentah</th>
-                                    <td class="font-numeric">25 biji</td>
-                                    <td class="text-danger font-numeric">−11 biji</td>
-                                    <td class="fw-semibold font-numeric">14 biji</td>
-                                    <td><span class="pos-badge pos-badge-safe">Aman</span></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Telur Ayam</th>
-                                    <td class="font-numeric">30 btr</td>
-                                    <td class="text-danger font-numeric">−18 btr</td>
-                                    <td class="fw-semibold font-numeric">12 butir</td>
-                                    <td><span class="pos-badge pos-badge-safe">Aman</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+		<div class="dashboard-quick-links" aria-label="Aksi cepat">
+			<a href="{{ route('stocks.index') }}"><span class="quick-link-icon quick-link-stock" aria-hidden="true">⇄</span><span><strong>Catat stok</strong><small>Tambah bahan baku</small></span><span class="quick-link-arrow" aria-hidden="true">→</span></a>
+			<a href="{{ route('products.index') }}"><span class="quick-link-icon quick-link-menu" aria-hidden="true">▤</span><span><strong>Kelola menu</strong><small>Atur katalog produk</small></span><span class="quick-link-arrow" aria-hidden="true">→</span></a>
+			<a href="{{ route('reports.transactions') }}"><span class="quick-link-icon quick-link-report" aria-hidden="true">▥</span><span><strong>Lihat laporan</strong><small>Periksa transaksi</small></span><span class="quick-link-arrow" aria-hidden="true">→</span></a>
+		</div>
 
-                    {{-- <div class="alert alert-primary small mt-3 mb-0" role="note">
-                        <strong>Pengingat SOP dapur saat tutup</strong>
-                        <p class="mb-1 mt-2">Ayam ungkep mentah wajib disimpan di chiller (0°–4°C). Ayam yang sudah ditepungi wajib digoreng setengah matang.</p>
-                        <p class="mb-0">Catat bahan basi atau rusak pada menu Tutup Warung.</p>
-                    </div> --}}
-                </div>
-            </div>
-        </section>
+		<div class="dashboard-stats">
+			<article class="dashboard-stat stat-sales">
+				<div class="stat-topline"><span>Penjualan hari ini</span><span class="stat-icon" aria-hidden="true">Rp</span></div>
+				<strong>Rp {{ number_format((float) $todaySales, 0, ',', '.') }}</strong>
+				<small>Total pendapatan masuk</small>
+			</article>
+			<article class="dashboard-stat stat-transactions">
+				<div class="stat-topline"><span>Transaksi hari ini</span><span class="stat-icon" aria-hidden="true">↗</span></div>
+				<strong>{{ number_format($todayTransactions, 0, ',', '.') }}</strong>
+				<small>nota tercatat</small>
+			</article>
+			<article class="dashboard-stat stat-products">
+				<div class="stat-topline"><span>Menu tersedia</span><span class="stat-icon" aria-hidden="true">▤</span></div>
+				<strong>{{ number_format($productCount, 0, ',', '.') }}</strong>
+				<small>produk dalam katalog</small>
+			</article>
+			<article class="dashboard-stat {{ $lowStockCount > 0 ? 'stat-alert' : 'stat-stock' }}">
+				<div class="stat-topline"><span>Perlu restok</span><span class="stat-icon" aria-hidden="true">!</span></div>
+				<strong>{{ number_format($lowStockCount, 0, ',', '.') }}</strong>
+				<small>bahan di bawah stok minimum</small>
+			</article>
+		</div>
 
-        <section class="col-12 col-xl-5" id="riwayat">
-            <div class="card h-100 shadow-sm">
-                <div class="card-header bg-white d-flex align-items-center justify-content-between py-3">
-                    <div>
-                        <h2 class="h6 fw-bold mb-1">Bon transaksi berjalan</h2>
-                        <p class="small text-secondary mb-0">Riwayat transaksi kasir hari ini.</p>
-                    </div>
-                    <a class="text-secondary text-decoration-none" href="#riwayat" aria-label="Lihat semua transaksi">•••</a>
-                </div>
-                <div class="card-body d-flex flex-column">
-                    <div class="list-group list-group-flush mb-3">
-                        <article class="list-group-item px-0">
-                            <div class="d-flex justify-content-between gap-2"><strong>#TRX-0052</strong><strong>Rp 30.000</strong></div>
-                            <div class="d-flex justify-content-between gap-2 mt-1 small text-secondary"><span>2× Geprek Dada, 2× Es Teh</span><span class="text-success text-nowrap">19:30 · Tunai pas</span></div>
-                        </article>
-                        <article class="list-group-item px-0">
-                            <div class="d-flex justify-content-between gap-2"><strong>#TRX-0051</strong><strong>Rp 15.000</strong></div>
-                            <div class="d-flex justify-content-between gap-2 mt-1 small text-secondary"><span>1× Geprek Paha, 1× Nasi</span><span class="text-success text-nowrap">19:22 · Tunai 20k</span></div>
-                        </article>
-                        <article class="list-group-item px-0">
-                            <div class="d-flex justify-content-between gap-2"><strong>#TRX-0050</strong><strong>Rp 42.000</strong></div>
-                            <div class="d-flex justify-content-between gap-2 mt-1 small text-secondary"><span>2× Geprek Dada, 2× Usus</span><span class="text-success text-nowrap">19:05 · Tunai 50k</span></div>
-                        </article>
-                    </div>
-                    <a class="btn btn-danger mt-auto d-flex justify-content-between align-items-center" id="transaksi" href="{{ route('reports.transactions') }}">
-                        Lihat laporan transaksi <span aria-hidden="true">→</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-    </div>
+		<div class="dashboard-main-grid">
+			<section class="dashboard-panel sales-panel" aria-labelledby="sales-title">
+				<div class="dashboard-panel-heading">
+					<div>
+						<h2 id="sales-title">Tren penjualan</h2>
+						<p>Performa selama 7 hari terakhir</p>
+					</div>
+					<span class="sales-period">7 HARI</span>
+				</div>
+				<div class="sales-chart" role="img" aria-label="Grafik penjualan tujuh hari terakhir">
+					@foreach ($salesChart as $day)
+						<div class="sales-chart-column" title="{{ $day['date'] }}: Rp {{ number_format($day['total'], 0, ',', '.') }}">
+							<span class="sales-chart-value">{{ $day['total'] > 0 ? number_format($day['total'] / 1000, 0, ',', '.').'k' : '' }}</span>
+							<div class="sales-chart-track">
+								<span class="sales-chart-bar {{ $day['date'] === now()->toDateString() ? 'is-today' : '' }}" style="height: {{ $day['total'] > 0 ? max(8, ($day['total'] / $maxSales) * 100) : 3 }}%"></span>
+							</div>
+							<span class="sales-chart-label">{{ $day['label'] }}</span>
+						</div>
+					@endforeach
+				</div>
+				<div class="sales-chart-footer"><span><i aria-hidden="true"></i> Penjualan per hari</span><a href="{{ route('reports.transactions') }}">Buka laporan <span aria-hidden="true">→</span></a></div>
+			</section>
+
+			<section class="dashboard-panel stock-panel" aria-labelledby="stock-title">
+				<div class="dashboard-panel-heading">
+					<div>
+						<h2 id="stock-title">Pantau stok</h2>
+						<p>Bahan yang perlu diperhatikan</p>
+					</div>
+					<a class="panel-text-link" href="{{ route('ingredients.index') }}">Semua bahan <span aria-hidden="true">→</span></a>
+				</div>
+				@forelse ($lowStockIngredients as $ingredient)
+					<div class="stock-alert-row">
+						<span class="stock-alert-mark" aria-hidden="true">!</span>
+						<span class="stock-alert-name"><strong>{{ $ingredient->nama_bahan }}</strong><small>Minimum {{ $ingredient->stok_minimum }} {{ $ingredient->satuan }}</small></span>
+						<span class="stock-alert-amount">{{ $ingredient->stok_saat_ini }} <small>{{ $ingredient->satuan }}</small></span>
+					</div>
+				@empty
+					<div class="dashboard-empty stock-empty"><span aria-hidden="true">✓</span><strong>Stok aman</strong><small>Belum ada bahan yang perlu direstok.</small></div>
+				@endforelse
+				@if ($lowStockCount > 0)
+					<a class="stock-action" href="{{ route('stocks.index') }}">Catat stok masuk <span aria-hidden="true">→</span></a>
+				@endif
+			</section>
+		</div>
+
+		<section class="dashboard-panel recent-panel" aria-labelledby="recent-title">
+			<div class="dashboard-panel-heading">
+				<div>
+					<h2 id="recent-title">Transaksi terbaru</h2>
+					<p>Aktivitas penjualan yang baru tercatat</p>
+				</div>
+				<a class="panel-text-link" href="{{ route('transaction-history.index') }}">Riwayat transaksi <span aria-hidden="true">→</span></a>
+			</div>
+			@if ($recentTransactions->isEmpty())
+				<div class="dashboard-empty recent-empty"><span aria-hidden="true">＋</span><strong>Belum ada transaksi</strong><small>Transaksi baru akan muncul di sini.</small></div>
+			@else
+				<div class="table-responsive">
+					<table class="table dashboard-table mb-0">
+						<thead><tr><th>Nomor nota</th><th>Waktu</th><th>Item</th><th class="text-end">Total</th><th class="text-end">Status</th></tr></thead>
+						<tbody>
+							@foreach ($recentTransactions as $transaction)
+								<tr>
+									<td><strong>{{ $transaction->nomor_struk }}</strong></td>
+									<td>{{ $transaction->created_at->format('d M Y, H:i') }}</td>
+									<td>{{ $transaction->items_count }} menu</td>
+									<td class="text-end fw-bold">Rp {{ number_format((float) $transaction->total_bayar, 0, ',', '.') }}</td>
+									<td class="text-end"><span class="transaction-status">Selesai</span></td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+			@endif
+		</section>
+	</section>
 @endsection

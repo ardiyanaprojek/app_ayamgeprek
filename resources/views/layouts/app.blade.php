@@ -28,6 +28,9 @@
                 <a class="nav-link sidebar-link {{ request()->routeIs('transactions.*') ? 'active' : '' }}" href="{{ route('transactions.index') }}" @if (request()->routeIs('transactions.*')) aria-current="page" @endif>
                     <span aria-hidden="true">＋</span><span>Kasir POS</span>
                 </a>
+                <a class="nav-link sidebar-link {{ request()->routeIs('transaction-history.*') ? 'active' : '' }}" href="{{ route('transaction-history.index') }}" @if (request()->routeIs('transaction-history.*')) aria-current="page" @endif>
+                    <span aria-hidden="true">◷</span><span>Riwayat Transaksi</span>
+                </a>
 
                 <p class="sidebar-section">Katalog &amp; inventaris</p>
                 <a class="nav-link sidebar-link {{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}" @if (request()->routeIs('products.*')) aria-current="page" @endif>
@@ -42,13 +45,11 @@
                 <a class="nav-link sidebar-link {{ request()->routeIs('stocks.history') ? 'active' : '' }}" href="{{ route('stocks.history') }}" @if (request()->routeIs('stocks.history')) aria-current="page" @endif>
                     <span aria-hidden="true">◷</span><span>Riwayat Stok</span>
                 </a>
+                
 
                 <p class="sidebar-section">Laporan</p>
                 <a class="nav-link sidebar-link {{ request()->routeIs('reports.*') ? 'active' : '' }}" href="{{ route('reports.transactions') }}" @if (request()->routeIs('reports.*')) aria-current="page" @endif>
                     <span aria-hidden="true">▥</span><span>Laporan Transaksi</span>
-                </a>
-                <a class="nav-link sidebar-link {{ request()->routeIs('transaction-history.*') ? 'active' : '' }}" href="{{ route('transaction-history.index') }}" @if (request()->routeIs('transaction-history.*')) aria-current="page" @endif>
-                    <span aria-hidden="true">◷</span><span>Riwayat Transaksi</span>
                 </a>
                 <a class="nav-link sidebar-link {{ request()->routeIs('closings.*') ? 'active' : '' }}" href="{{ route('closings.index') }}" @if (request()->routeIs('closings.*')) aria-current="page" @endif>
                     <span aria-hidden="true">◷</span><span>Tutup Operasional</span>

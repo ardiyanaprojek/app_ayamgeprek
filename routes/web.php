@@ -6,10 +6,49 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\TransactionController;
+use App\Models\Ingredient;
+use App\Models\Product;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('dashboard');
+    $today = now()->toDateString();
+    $weekStart = now()->subDays(6)->startOfDay();
+    $dailySales = Transaction::query()
+        ->selectRaw('DATE(created_at) as tanggal, SUM(total_bayar) as total')
+        ->whereBetween('created_at', [$weekStart, now()])
+        ->groupBy('tanggal')
+        ->pluck('total', 'tanggal');
+
+    $salesChart = collect(range(6, 0))->map(function (int $daysAgo) use ($dailySales) {
+        $date = now()->subDays($daysAgo);
+
+        return [
+            'label' => $date->translatedFormat('D'),
+            'date' => $date->toDateString(),
+            'total' => (float) ($dailySales[$date->toDateString()] ?? 0),
+        ];
+    });
+
+    return view('dashboard', [
+        'todaySales' => Transaction::query()->whereDate('created_at', $today)->sum('total_bayar'),
+        'todayTransactions' => Transaction::query()->whereDate('created_at', $today)->count(),
+        'productCount' => Product::query()->count(),
+        'lowStockIngredients' => Ingredient::query()
+            ->whereColumn('stok_saat_ini', '<=', 'stok_minimum')
+            ->orderBy('stok_saat_ini')
+            ->take(5)
+            ->get(),
+        'lowStockCount' => Ingredient::query()
+            ->whereColumn('stok_saat_ini', '<=', 'stok_minimum')
+            ->count(),
+        'recentTransactions' => Transaction::query()
+            ->withCount('items')
+            ->latest()
+            ->take(6)
+            ->get(),
+        'salesChart' => $salesChart,
+    ]);
 })->name('dashboard');
 
 Route::resource('stocks', StockController::class)
