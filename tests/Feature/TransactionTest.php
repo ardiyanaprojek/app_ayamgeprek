@@ -5,12 +5,23 @@ namespace Tests\Feature;
 use App\Models\Ingredient;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TransactionTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->actingAs(User::factory()->create([
+            'name' => 'Pemilik Warung',
+            'username' => 'owner',
+        ]));
+    }
 
     public function test_store_creates_transaction_and_reduces_stock(): void
     {

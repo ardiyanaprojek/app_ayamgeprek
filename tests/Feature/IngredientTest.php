@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Ingredient;
+use App\Models\User;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,16 @@ use Tests\TestCase;
 class IngredientTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->actingAs(User::factory()->create([
+            'name' => 'Pemilik Warung',
+            'username' => 'owner',
+        ]));
+    }
 
     public function test_index_displays_and_searches_ingredients(): void
     {

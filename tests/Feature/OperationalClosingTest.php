@@ -5,12 +5,23 @@ namespace Tests\Feature;
 use App\Models\Ingredient;
 use App\Models\OperationalClosing;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class OperationalClosingTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->actingAs(User::factory()->create([
+            'name' => 'Pemilik Warung',
+            'username' => 'owner',
+        ]));
+    }
 
     public function test_closing_saves_daily_sales_cash_difference_and_stock_snapshot(): void
     {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\OperationalClosingController;
 use App\Http\Controllers\ProductController;
@@ -11,66 +12,75 @@ use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    $today = now()->toDateString();
-    $weekStart = now()->subDays(6)->startOfDay();
-    $dailySales = Transaction::query()
-        ->selectRaw('DATE(created_at) as tanggal, SUM(total_bayar) as total')
-        ->whereBetween('created_at', [$weekStart, now()])
-        ->groupBy('tanggal')
-        ->pluck('total', 'tanggal');
+Route::middleware('guest')->group(function () {
+    Route::get('login', [LoginController::class, 'create'])->name('login');
+    Route::post('login', [LoginController::class, 'store'])->name('login');
+});
 
-    $salesChart = collect(range(6, 0))->map(function (int $daysAgo) use ($dailySales) {
-        $date = now()->subDays($daysAgo);
+Route::middleware('auth')->group(function () {
+    Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
 
-        return [
-            'label' => $date->translatedFormat('D'),
-            'date' => $date->toDateString(),
-            'total' => (float) ($dailySales[$date->toDateString()] ?? 0),
-        ];
-    });
+    Route::get('/', function () {
+        $today = now()->toDateString();
+        $weekStart = now()->subDays(6)->startOfDay();
+        $dailySales = Transaction::query()
+            ->selectRaw('DATE(created_at) as tanggal, SUM(total_bayar) as total')
+            ->whereBetween('created_at', [$weekStart, now()])
+            ->groupBy('tanggal')
+            ->pluck('total', 'tanggal');
 
-    return view('dashboard', [
-        'todaySales' => Transaction::query()->whereDate('created_at', $today)->sum('total_bayar'),
-        'todayTransactions' => Transaction::query()->whereDate('created_at', $today)->count(),
-        'productCount' => Product::query()->count(),
-        'lowStockIngredients' => Ingredient::query()
-            ->whereColumn('stok_saat_ini', '<=', 'stok_minimum')
-            ->orderBy('stok_saat_ini')
-            ->take(5)
-            ->get(),
-        'lowStockCount' => Ingredient::query()
-            ->whereColumn('stok_saat_ini', '<=', 'stok_minimum')
-            ->count(),
-        'recentTransactions' => Transaction::query()
-            ->withCount('items')
-            ->latest()
-            ->take(6)
-            ->get(),
-        'salesChart' => $salesChart,
-    ]);
-})->name('dashboard');
+        $salesChart = collect(range(6, 0))->map(function (int $daysAgo) use ($dailySales) {
+            $date = now()->subDays($daysAgo);
 
-Route::resource('stocks', StockController::class)
-    ->only(['index', 'store']);
-Route::get('stock-history', [StockController::class, 'history'])
-    ->name('stocks.history');
+            return [
+                'label' => $date->translatedFormat('D'),
+                'date' => $date->toDateString(),
+                'total' => (float) ($dailySales[$date->toDateString()] ?? 0),
+            ];
+        });
 
-Route::resource('transactions', TransactionController::class)
-    ->only(['index', 'store']);
-Route::get('transaction-history', [TransactionController::class, 'history'])
-    ->name('transaction-history.index');
+        return view('dashboard', [
+            'todaySales' => Transaction::query()->whereDate('created_at', $today)->sum('total_bayar'),
+            'todayTransactions' => Transaction::query()->whereDate('created_at', $today)->count(),
+            'productCount' => Product::query()->count(),
+            'lowStockIngredients' => Ingredient::query()
+                ->whereColumn('stok_saat_ini', '<=', 'stok_minimum')
+                ->orderBy('stok_saat_ini')
+                ->take(5)
+                ->get(),
+            'lowStockCount' => Ingredient::query()
+                ->whereColumn('stok_saat_ini', '<=', 'stok_minimum')
+                ->count(),
+            'recentTransactions' => Transaction::query()
+                ->withCount('items')
+                ->latest()
+                ->take(6)
+                ->get(),
+            'salesChart' => $salesChart,
+        ]);
+    })->name('dashboard');
 
-Route::get('reports/transactions', [ReportController::class, 'transactions'])
-    ->name('reports.transactions');
+    Route::resource('stocks', StockController::class)
+        ->only(['index', 'store']);
+    Route::get('stock-history', [StockController::class, 'history'])
+        ->name('stocks.history');
 
-Route::get('closings', [OperationalClosingController::class, 'index'])
-    ->name('closings.index');
-Route::post('closings', [OperationalClosingController::class, 'store'])
-    ->name('closings.store');
+    Route::resource('transactions', TransactionController::class)
+        ->only(['index', 'store']);
+    Route::get('transaction-history', [TransactionController::class, 'history'])
+        ->name('transaction-history.index');
 
-Route::resource('products', ProductController::class)
-    ->only(['index', 'store', 'update', 'destroy']);
+    Route::get('reports/transactions', [ReportController::class, 'transactions'])
+        ->name('reports.transactions');
 
-Route::resource('ingredients', IngredientController::class)
-    ->only(['index', 'store', 'update', 'destroy']);
+    Route::get('closings', [OperationalClosingController::class, 'index'])
+        ->name('closings.index');
+    Route::post('closings', [OperationalClosingController::class, 'store'])
+        ->name('closings.store');
+
+    Route::resource('products', ProductController::class)
+        ->only(['index', 'store', 'update', 'destroy']);
+
+    Route::resource('ingredients', IngredientController::class)
+        ->only(['index', 'store', 'update', 'destroy']);
+});

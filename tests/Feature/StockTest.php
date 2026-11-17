@@ -3,12 +3,23 @@
 namespace Tests\Feature;
 
 use App\Models\Ingredient;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class StockTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->actingAs(User::factory()->create([
+            'name' => 'Pemilik Warung',
+            'username' => 'owner',
+        ]));
+    }
 
     public function test_index_displays_stock_summary(): void
     {

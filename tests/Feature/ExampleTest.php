@@ -2,11 +2,21 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->actingAs(User::factory()->create([
+            'name' => 'Pemilik Warung',
+            'username' => 'owner',
+        ]));
+    }
+
     /**
      * A basic test example.
      */

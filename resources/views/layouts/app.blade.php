@@ -8,6 +8,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
+    @php
+        $currentUser = auth()->user();
+        $userInitial = $currentUser ? strtoupper(substr($currentUser->name, 0, 1)) : 'A';
+    @endphp
+
     <div class="app-shell">
         <button class="sidebar-backdrop" type="button" aria-label="Tutup menu navigasi" data-sidebar-close></button>
 
@@ -45,7 +50,6 @@
                 <a class="nav-link sidebar-link {{ request()->routeIs('stocks.history') ? 'active' : '' }}" href="{{ route('stocks.history') }}" @if (request()->routeIs('stocks.history')) aria-current="page" @endif>
                     <span aria-hidden="true">◷</span><span>Riwayat Stok</span>
                 </a>
-                
 
                 <p class="sidebar-section">Laporan</p>
                 <a class="nav-link sidebar-link {{ request()->routeIs('reports.*') ? 'active' : '' }}" href="{{ route('reports.transactions') }}" @if (request()->routeIs('reports.*')) aria-current="page" @endif>
@@ -57,13 +61,17 @@
             </nav>
 
             <div class="sidebar-footer mt-auto pt-3">
-                <div class="d-flex align-items-center gap-2 px-1">
-                    <span class="avatar rounded-circle bg-secondary fw-bold d-inline-flex align-items-center justify-content-center">P</span>
-                    <span class="d-grid">
-                        <strong class="small">Pemilik Warung</strong>
-                        <small class="text-secondary">Akun pemilik</small>
-                    </span>
-                </div>
+                @auth
+                    <div class="d-flex align-items-center gap-2 px-1">
+                        <span class="avatar rounded-circle fw-bold d-inline-flex align-items-center justify-content-center" aria-label="Profil {{ $currentUser->name }}">{{ $userInitial }}</span>
+                        <span class="d-grid">
+                            <strong class="small">{{ $currentUser->name }}</strong>
+                            <small class="text-secondary">{{ $currentUser->username }}</small>
+                        </span>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-danger btn-sm w-100">Masuk</a>
+                @endauth
             </div>
         </aside>
 
@@ -82,7 +90,18 @@
                 </div>
                 <div class="d-flex align-items-center gap-2 gap-md-3">
                     <time class="text-secondary small d-none d-xl-inline" datetime="{{ now()->toIso8601String() }}">{{ now()->format('d M Y, H:i') }}</time>
-                    <span class="avatar rounded-circle fw-bold d-inline-flex align-items-center justify-content-center" aria-label="Profil Pemilik Warung">P</span>
+                    @auth
+                        <div class="user-toolbar d-flex align-items-center gap-2">
+                            <span class="text-secondary small d-none d-md-inline">{{ $currentUser->username ?? $currentUser->name }}</span>
+                            <span class="avatar rounded-circle fw-bold d-inline-flex align-items-center justify-content-center" aria-label="Profil {{ $currentUser->name }}">{{ $userInitial }}</span>
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-secondary btn-sm">Keluar</button>
+                            </form>
+                        </div>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-sm">Masuk</a>
+                    @endauth
                 </div>
             </header>
 

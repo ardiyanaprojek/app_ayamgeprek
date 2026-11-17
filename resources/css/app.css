@@ -27,6 +27,123 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+.auth-page {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #fff1f2 0%, #eef2ff 100%);
+}
+
+.auth-shell {
+    width: min(100%, 460px);
+}
+
+.auth-card {
+    padding: 2rem;
+    border: 1px solid rgba(148, 163, 184, .2);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, .9);
+    box-shadow: 0 24px 48px rgb(15 23 42 / 8%);
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+.auth-brand {
+    display: inline-flex;
+    width: 64px;
+    height: 64px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #ef4444, #be123c);
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: .08em;
+}
+
+.auth-kicker {
+    margin: 1rem 0 .25rem;
+    color: #e11d48;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.auth-title {
+    margin-bottom: 1.5rem;
+    font-size: clamp(1.8rem, 4vw, 2.3rem);
+    font-weight: 800;
+    text-align: center;
+}
+
+.auth-form {
+    text-align: left;
+}
+
+.auth-form .form-label {
+    color: #334155;
+    font-weight: 600;
+}
+
+.auth-form .form-control {
+    min-height: 46px;
+    border-color: #e2e8f0;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.auth-form .form-control:focus {
+    border-color: #fda4af;
+    box-shadow: 0 0 0 4px rgb(225 29 72 / 10%);
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-field .form-control {
+    padding-right: 48px;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: #64748b;
+    font-size: 1.05rem;
+    cursor: pointer;
+}
+
+.password-toggle:hover,
+.password-toggle:focus {
+    color: #0f172a;
+}
+
+.auth-remember-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.btn-login {
+    width: 100%;
+    min-height: 46px;
+    margin-top: .25rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.user-toolbar {
+    gap: .75rem;
+}
+
 .font-numeric,
 .pos-number,
 .table td,
