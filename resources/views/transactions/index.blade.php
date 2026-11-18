@@ -56,7 +56,7 @@
                                         </div>
                                         <p class="small text-secondary mb-2">
                                             @if ($product->ingredient_id && $product->jumlah_potong > 0)
-                                                Dipotong {{ $product->jumlah_potong }} {{ $product->ingredient?->satuan ?? 'unit' }} dari {{ $product->ingredient?->nama_bahan ?? 'bahan utama' }}
+                                                 {{ $product->jumlah_potong }} {{ $product->ingredient?->satuan ?? 'unit' }}  {{ $product->ingredient?->nama_bahan ?? 'bahan utama' }}
                                             @else
                                                 Tidak memotong stok bahan pokok
                                             @endif

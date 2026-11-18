@@ -101,7 +101,9 @@
 				<a class="panel-text-link" href="{{ route('transaction-history.index') }}">Riwayat transaksi <span aria-hidden="true">→</span></a>
 			</div>
 			@if ($recentTransactions->isEmpty())
-				<div class="dashboard-empty recent-empty"><span aria-hidden="true">＋</span><strong>Belum ada transaksi</strong><small>Transaksi baru akan muncul di sini.</small></div>
+				<div class="dashboard-empty recent-empty">
+					<!-- <span aria-hidden="true">＋</span> -->
+					<strong>Belum ada transaksi</strong><small>Transaksi baru akan muncul di sini.</small></div>
 			@else
 				<div class="table-responsive">
 					<table class="table dashboard-table mb-0">
