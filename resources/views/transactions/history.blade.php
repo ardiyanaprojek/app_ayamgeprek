@@ -58,7 +58,14 @@
                                 </td>
                                 <td class="text-end font-numeric">Rp {{ number_format($transaction->total_bayar, 0, ',', '.') }}</td>
                                 <td class="text-end font-numeric">Rp {{ number_format($transaction->nominal_diterima, 0, ',', '.') }}</td>
-                                <td class="text-end pe-4 font-numeric">Rp {{ number_format($transaction->kembalian, 0, ',', '.') }}</td>
+                                <td class="text-end pe-4">
+                                    <div class="d-flex align-items-center justify-content-end gap-2">
+                                        <span class="font-numeric">Rp {{ number_format($transaction->kembalian, 0, ',', '.') }}</span>
+                                        <a class="btn btn-sm btn-outline-danger" href="{{ route('transactions.receipt', $transaction) }}" target="_blank" title="Cetak ulang struk">
+                                            Cetak
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                         @empty
                             <tr><td class="py-5 text-center text-secondary" colspan="6">Transaksi tidak ditemukan.</td></tr>

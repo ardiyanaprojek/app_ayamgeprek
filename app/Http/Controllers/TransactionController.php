@@ -50,6 +50,15 @@ class TransactionController extends Controller
         ]);
     }
 
+    public function receipt(Transaction $transaction): View
+    {
+        $transaction->load('items.product');
+
+        return view('transactions.receipt', [
+            'transaction' => $transaction,
+        ]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -132,7 +141,7 @@ class TransactionController extends Controller
         }
 
         return redirect()
-            ->route('transactions.index')
+            ->route('transactions.receipt', $transaction)
             ->with('success', 'Transaksi berhasil diselesaikan.');
     }
 }

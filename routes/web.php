@@ -67,6 +67,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('transactions', TransactionController::class)
         ->only(['index', 'store']);
+    Route::get('transactions/{transaction}/receipt', [TransactionController::class, 'receipt'])
+        ->name('transactions.receipt');
     Route::get('transaction-history', [TransactionController::class, 'history'])
         ->name('transaction-history.index');
 
