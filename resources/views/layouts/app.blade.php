@@ -98,9 +98,9 @@
                         <div class="user-toolbar d-flex align-items-center gap-2">
                             <span class="text-secondary small d-none d-md-inline">{{ $currentUser->username ?? $currentUser->name }}</span>
                             <span class="avatar rounded-circle fw-bold d-inline-flex align-items-center justify-content-center" aria-label="Profil {{ $currentUser->name }}">{{ $userInitial }}</span>
-                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
                                 @csrf
-                                <button type="submit" class="btn btn-outline-secondary btn-sm">Keluar</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#logoutModal">Keluar</button>
                             </form>
                         </div>
                     @else
@@ -124,6 +124,25 @@
             <a class="bottom-nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}" href="{{ route('reports.transactions') }}" @if (request()->routeIs('reports.*')) aria-current="page" @endif><span aria-hidden="true">▥</span><small>Laporan</small></a>
         </nav>
     </div>
+    @auth
+        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title fs-6 fw-bold" id="logoutModalLabel">Konfirmasi Logout</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Batal"></button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah Anda yakin ingin logout?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-danger" id="confirm-logout">Ya, Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endauth
     @stack('scripts')
 </body>
 </html>

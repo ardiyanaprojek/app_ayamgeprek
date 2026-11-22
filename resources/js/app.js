@@ -1,6 +1,12 @@
 import './bootstrap';
 import 'bootstrap';
 
+const logoutConfirmButton = document.querySelector('#confirm-logout');
+
+logoutConfirmButton?.addEventListener('click', () => {
+    document.querySelector('#logout-form')?.requestSubmit();
+});
+
 const sidebar = document.querySelector('#app-sidebar');
 const sidebarToggle = document.querySelector('[data-sidebar-toggle]');
 const sidebarBackdrop = document.querySelector('.sidebar-backdrop');
