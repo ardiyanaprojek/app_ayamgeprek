@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0f172a">
-    <title>Login - Ayam Geprek Istiqomah</title>
+    <title>Login - {{ $shopSetting->nama_warung }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="auth-page">
     <div class="auth-shell">
         <div class="auth-card">
-            <div class="auth-brand" aria-label="Logo Ayam Geprek Istiqomah">AGI</div>
+            <div class="auth-brand" aria-label="Logo {{ $shopSetting->nama_warung }}">AGI</div>
             <p class="auth-kicker">Sistem POS & Inventaris</p>
             <h1 class="auth-title">Login</h1>
 

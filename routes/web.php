@@ -5,6 +5,7 @@ use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\OperationalClosingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Ingredient;
@@ -89,4 +90,11 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('ingredients', IngredientController::class)
         ->only(['index', 'store', 'update', 'destroy']);
+
+    Route::get('settings', [SettingsController::class, 'index'])
+        ->name('settings.index');
+    Route::put('settings/account', [SettingsController::class, 'updateAccount'])
+        ->name('settings.account.update');
+    Route::put('settings/shop', [SettingsController::class, 'updateShop'])
+        ->name('settings.shop.update');
 });

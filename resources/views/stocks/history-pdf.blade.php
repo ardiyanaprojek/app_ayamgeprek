@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-    <h1>AYAM GEPREK ISTIQOMAH</h1>
+    <h1>{{ $shopSetting->nama_warung }}</h1>
     <div class="subtitle">
         Laporan Riwayat Stok
         @if (!empty($filters['from']) || !empty($filters['to']))

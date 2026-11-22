@@ -10,7 +10,7 @@
 			<div>
 				<p class="dashboard-eyebrow">RINGKASAN OPERASIONAL</p>
 				<!-- <h1 class="h3 mb-1">Selamat datang kembali</h1> -->
-				<p class="text-secondary mb-0">Pantau aktivitas Ayam Geprek Istiqomah hari ini.</p>
+				<p class="text-secondary mb-0">Pantau aktivitas {{ $shopSetting->nama_warung }} hari ini.</p>
 			</div>
 			<a class="btn btn-pos-primary dashboard-primary-action" href="{{ route('transactions.index') }}">
 				<span aria-hidden="true">＋</span> Buka kasir

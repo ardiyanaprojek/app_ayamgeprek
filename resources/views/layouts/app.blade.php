@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0f172a">
-    <title>@yield('title', 'Dashboard') - Ayam Geprek Istiqomah</title>
+    <title>@yield('title', 'Dashboard') - {{ $shopSetting->nama_warung }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
@@ -20,7 +20,7 @@
             <a class="brand d-flex align-items-center gap-2 text-decoration-none text-white mb-4" href="{{ route('dashboard') }}">
                 <span class="brand-mark rounded-3 bg-danger text-white fw-bold d-inline-flex align-items-center justify-content-center">AGI</span>
                 <span class="d-grid">
-                    <strong class="small fw-bold text-dark">AYAM GEPREK ISTIQOMAH</strong>
+                    <strong class="small fw-bold text-dark">{{ $shopSetting->nama_warung }}</strong>
                     <small class="text-secondary">POS &amp; Inventaris</small>
                 </span>
             </a>
@@ -58,6 +58,10 @@
                 <a class="nav-link sidebar-link {{ request()->routeIs('closings.*') ? 'active' : '' }}" href="{{ route('closings.index') }}" @if (request()->routeIs('closings.*')) aria-current="page" @endif>
                     <span aria-hidden="true">◷</span><span>Tutup Operasional</span>
                 </a>
+                <p class="sidebar-section">Sistem</p>
+                <a class="nav-link sidebar-link {{ request()->routeIs('settings.*') ? 'active' : '' }}" href="{{ route('settings.index') }}" @if (request()->routeIs('settings.*')) aria-current="page" @endif>
+                    <span aria-hidden="true">⚙</span><span>Pengaturan</span>
+                </a>
             </nav>
 
             <div class="sidebar-footer mt-auto pt-3">
@@ -83,9 +87,9 @@
                     </button>
                     <span class="mobile-brand-mark rounded-3 bg-danger text-white fw-bold d-lg-none">AGI</span>
                     <div class="d-grid">
-                        <strong class="desktop-store-name">Ayam Geprek Istiqomah</strong>
-                        <strong class="mobile-store-name">AYAM GEPREK ISTIQOMAH</strong>
-                        <small class="mobile-store-location text-secondary">PADAKASIH</small>
+                        <strong class="desktop-store-name">{{ $shopSetting->nama_warung }}</strong>
+                        <strong class="mobile-store-name">{{ strtoupper($shopSetting->nama_warung) }}</strong>
+                        <small class="mobile-store-location text-secondary">{{ $shopSetting->alamat ?: '-' }}</small>
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-2 gap-md-3">

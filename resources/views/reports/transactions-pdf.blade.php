@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-    <h1>AYAM GEPREK ISTIQOMAH</h1>
+    <h1>{{ $shopSetting->nama_warung }}</h1>
     <div class="subtitle">Laporan Transaksi - {{ \Carbon\Carbon::parse($from)->format('d/m/Y') }} s/d {{ \Carbon\Carbon::parse($to)->format('d/m/Y') }}</div>
     <div class="summary">
         Total penjualan: <strong>Rp {{ number_format($summary->total_sales, 0, ',', '.') }}</strong>

@@ -89,8 +89,11 @@
     </div>
 
     <main class="receipt">
-        <div class="center store-name bold">AYAM GEPREK ISTIQOMAH</div>
-        <div class="center">PADAKASIH</div>
+        <div class="center store-name bold">{{ $shopSetting->nama_warung }}</div>
+        <div class="center">{{ $shopSetting->alamat ?: '-' }}</div>
+        @if ($shopSetting->telepon)
+            <div class="center">{{ $shopSetting->telepon }}</div>
+        @endif
         <div class="divider"></div>
 
         <div class="meta">
