@@ -9,7 +9,12 @@
             <h1 class="h3 fw-bold mb-1">Riwayat Stok</h1>
             <p class="text-secondary mb-0">Belanja masuk, bahan rusak/basi, dan stok terpakai dari transaksi kasir.</p>
         </div>
-        <a class="btn btn-danger text-nowrap" href="{{ route('stocks.index') }}">Catat mutasi stok</a>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-outline-danger text-nowrap" href="{{ route('stocks.history.pdf', request()->only(['from', 'to', 'tipe'])) }}">
+                Cetak PDF
+            </a>
+            <a class="btn btn-danger text-nowrap" href="{{ route('stocks.index') }}">Catat mutasi stok</a>
+        </div>
     </div>
 
     <section class="card">

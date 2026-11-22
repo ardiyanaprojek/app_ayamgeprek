@@ -11,6 +11,7 @@
         </div>
         <div class="d-flex gap-2">
             <a class="btn btn-outline-secondary" href="{{ route('transaction-history.index') }}">Riwayat transaksi</a>
+            <a class="btn btn-outline-danger" href="{{ route('reports.transactions.pdf', ['from' => $from, 'to' => $to]) }}">Cetak PDF</a>
             <a class="btn btn-outline-secondary" href="{{ route('closings.index') }}">Tutup operasional <span aria-hidden="true">→</span></a>
         </div>
     </div>

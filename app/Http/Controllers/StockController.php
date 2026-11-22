@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
 use App\Models\StockLog;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -48,6 +50,35 @@ class StockController extends Controller
             'logs' => $logs,
             'filters' => $validated,
         ]);
+    }
+
+    public function pdf(Request $request): Response
+    {
+        $validated = $request->validate([
+            'from' => ['nullable', 'date_format:Y-m-d'],
+            'to' => ['nullable', 'date_format:Y-m-d'],
+            'tipe' => ['nullable', Rule::in(['masuk', 'rusak_basi', 'penjualan'])],
+        ]);
+
+        if (isset($validated['from'], $validated['to'])) {
+            $request->validate(['to' => ['after_or_equal:from']]);
+        }
+
+        $logs = StockLog::query()
+            ->with('ingredient')
+            ->when($validated['from'] ?? null, fn ($query, $from) => $query->whereDate('tanggal', '>=', $from))
+            ->when($validated['to'] ?? null, fn ($query, $to) => $query->whereDate('tanggal', '<=', $to))
+            ->when($validated['tipe'] ?? null, fn ($query, $type) => $query->where('tipe', $type))
+            ->orderByDesc('tanggal')
+            ->orderByDesc('id')
+            ->get();
+
+        $pdf = Pdf::loadView('stocks.history-pdf', [
+            'logs' => $logs,
+            'filters' => $validated,
+        ])->setPaper('a4', 'portrait');
+
+        return $pdf->download('riwayat-stok-'.now()->format('Y-m-d-His').'.pdf');
     }
 
     public function store(Request $request): RedirectResponse

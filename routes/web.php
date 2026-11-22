@@ -64,6 +64,8 @@ Route::middleware('auth')->group(function () {
         ->only(['index', 'store']);
     Route::get('stock-history', [StockController::class, 'history'])
         ->name('stocks.history');
+    Route::get('stock-history/pdf', [StockController::class, 'pdf'])
+        ->name('stocks.history.pdf');
 
     Route::resource('transactions', TransactionController::class)
         ->only(['index', 'store']);
@@ -74,6 +76,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('reports/transactions', [ReportController::class, 'transactions'])
         ->name('reports.transactions');
+    Route::get('reports/transactions/pdf', [ReportController::class, 'pdf'])
+        ->name('reports.transactions.pdf');
 
     Route::get('closings', [OperationalClosingController::class, 'index'])
         ->name('closings.index');
