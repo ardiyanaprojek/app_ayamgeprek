@@ -3,17 +3,20 @@
 @section('title', 'Master Data Menu')
 
 @section('content')
+    {{-- start judul halaman dan tombol tambah menu --}}
     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
         <div>
             <p class="text-secondary small fw-semibold mb-1">DATA MASTER</p>
             <h1 class="h3 fw-bold mb-1">Master Data Menu</h1>
             <p class="text-secondary mb-0">Kelola menu jualan dan bahan pokok yang dipakai per porsi.</p>
         </div>
-        <button class="btn btn-danger text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#productModal" data-mode="create">
+        <button class="btn btn-primary text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#productModal" data-mode="create">
             <span aria-hidden="true">＋</span> Tambah Menu Baru
         </button>
     </div>
+    {{-- end judul halaman dan tombol tambah menu --}}
 
+    {{-- start notifikasi status dan validasi --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -36,8 +39,11 @@
             </ul>
         </div>
     @endif
+    {{-- end notifikasi status dan validasi --}}
 
+    {{-- start daftar menu --}}
     <section class="card shadow-sm">
+        {{-- start pencarian menu --}}
         <div class="card-header bg-white border-0 p-3 p-md-4">
             <form class="row g-2 align-items-center" method="GET" action="{{ route('products.index') }}">
                 <div class="col-12 col-md-6 col-lg-5">
@@ -54,8 +60,10 @@
                 @endif
             </form>
         </div>
+        {{-- end pencarian menu --}}
 
         <div class="card-body p-0">
+            {{-- start tabel menu untuk desktop --}}
             <div class="table-responsive desktop-product-table">
                 <table class="table table-hover align-middle mb-0 pos-table">
                     <thead class="table-light">
@@ -103,7 +111,9 @@
                     </tbody>
                 </table>
             </div>
+            {{-- end tabel menu untuk desktop --}}
 
+            {{-- start kartu menu untuk layar kecil --}}
             <div class="product-mobile-list d-none p-3">
                 @forelse ($products as $product)
                     <article class="card mb-3">
@@ -139,15 +149,20 @@
                     </div>
                 @endforelse
             </div>
+            {{-- end kartu menu untuk layar kecil --}}
         </div>
 
+        {{-- start navigasi halaman --}}
         @if ($products->hasPages())
             <div class="card-footer bg-white pos-pagination">
                 {{ $products->links() }}
             </div>
         @endif
+        {{-- end navigasi halaman --}}
     </section>
+    {{-- end daftar menu --}}
 
+    {{-- start modal tambah dan edit menu --}}
     <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -186,10 +201,11 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-light" type="button" data-bs-dismiss="modal">Batal</button>
-                        <button class="btn btn-danger" type="submit">Simpan Menu</button>
+                        <button class="btn btn-primary" type="submit">Simpan Menu</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    {{-- end modal tambah dan edit menu --}}
 @endsection

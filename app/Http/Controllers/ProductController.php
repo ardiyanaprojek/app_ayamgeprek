@@ -12,12 +12,13 @@ class ProductController extends Controller
 {
     public function index(Request $request): View
     {
+        // validasi input
         $validated = $request->validate([
             'q' => ['nullable', 'string', 'max:120'],
         ]);
 
         $search = $validated['q'] ?? '';
-
+        // jika ada pencarian akan di proses disini
         $products = Product::query()
             ->with('ingredient')
             ->when($search !== '', fn ($query) => $query->where('nama_menu', 'like', '%'.$search.'%'))
@@ -34,6 +35,7 @@ class ProductController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        // validasi inpuut
         $validated = $request->validate([
             'nama_menu' => ['required', 'string', 'max:120'],
             'harga_jual' => ['required', 'numeric', 'min:0'],
@@ -43,8 +45,9 @@ class ProductController extends Controller
 
         $validated['ingredient_id'] = $validated['ingredient_id'] ?? null;
         $validated['jumlah_potong'] = $validated['ingredient_id'] ? ($validated['jumlah_potong'] ?? 1) : 0;
-
-        Product::create($validated);
+        // proses menambah menu
+        $product = new Product($validated);
+        $product->save();
 
         return redirect()
             ->route('products.index')
@@ -53,6 +56,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product): RedirectResponse
     {
+        // validasi input
         $validated = $request->validate([
             'nama_menu' => ['required', 'string', 'max:120'],
             'harga_jual' => ['required', 'numeric', 'min:0'],
@@ -62,7 +66,7 @@ class ProductController extends Controller
 
         $validated['ingredient_id'] = $validated['ingredient_id'] ?? null;
         $validated['jumlah_potong'] = $validated['ingredient_id'] ? ($validated['jumlah_potong'] ?? 1) : 0;
-
+        // proeses edit data
         $product->update($validated);
 
         return redirect()
@@ -72,6 +76,7 @@ class ProductController extends Controller
 
     public function destroy(Product $product): RedirectResponse
     {
+        // proses mengahpus menu
         $product->delete();
 
         return redirect()

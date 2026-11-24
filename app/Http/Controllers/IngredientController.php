@@ -14,18 +14,20 @@ class IngredientController extends Controller
 {
     public function index(Request $request): View
     {
+        // validasi input
         $validated = $request->validate([
             'q' => ['nullable', 'string', 'max:100'],
         ]);
 
         $search = $validated['q'] ?? '';
-
+        // ini query jika ada pencarian
         $ingredients = Ingredient::query()
             ->when($search !== '', fn ($query) => $query->where('nama_bahan', 'like', '%'.$search.'%'))
             ->orderBy('nama_bahan')
             ->paginate(10)
             ->withQueryString();
 
+        // menampilkan data ke halaman index
         return view('ingredients.index', [
             'ingredients' => $ingredients,
             'search' => $search,
@@ -35,12 +37,14 @@ class IngredientController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        // validasi input
         $validated = $request->validate([
             'nama_bahan' => ['required', 'string', 'max:100'],
             'satuan' => ['required', Rule::in(Ingredient::UNITS)],
             'stok_minimum' => ['nullable', 'integer', 'min:0'],
         ]);
 
+        // proses membuat data baru
         $ingredient = new Ingredient($validated);
         $ingredient->stok_saat_ini = 0;
         $ingredient->stok_minimum = $validated['stok_minimum'] ?? 0;
@@ -53,12 +57,14 @@ class IngredientController extends Controller
 
     public function update(Request $request, Ingredient $ingredient): RedirectResponse
     {
+        // validasi input
         $validated = $request->validate([
             'nama_bahan' => ['required', 'string', 'max:100'],
             'satuan' => ['required', Rule::in(Ingredient::UNITS)],
             'stok_minimum' => ['nullable', 'integer', 'min:0'],
         ]);
 
+        // proses edit data
         $ingredient->update([
             'nama_bahan' => $validated['nama_bahan'],
             'satuan' => $validated['satuan'],
@@ -71,7 +77,8 @@ class IngredientController extends Controller
     }
 
     public function destroy(Ingredient $ingredient): RedirectResponse
-    {
+    {   
+        // mengecek bahan baku dipake menu lain atau tidak
         if (
             Schema::hasTable('products')
             && Schema::hasColumn('products', 'ingredient_id')
@@ -81,6 +88,7 @@ class IngredientController extends Controller
                 ->route('ingredients.index')
                 ->with('error', 'Bahan sedang digunakan oleh menu jualan');
         }
+        // jika tidak dia bakal dihapus
 
         $ingredient->delete();
 

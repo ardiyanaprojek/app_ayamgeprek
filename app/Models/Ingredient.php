@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ingredient extends Model
 {
-    public const UNITS = ['potong', 'tusuk'];
+    public const UNITS = ['potong', 'tusuk','porsi'];
 
     protected $fillable = [
         'nama_bahan',
