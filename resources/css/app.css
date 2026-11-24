@@ -948,6 +948,10 @@ body {
     .app-main > main {
         padding-bottom: 6rem !important;
     }
+
+    .transaction-cart {
+        margin-bottom: 4rem !important;
+    }
 }
 
 @media (max-width: 991.98px) {

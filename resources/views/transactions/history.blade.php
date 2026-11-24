@@ -92,6 +92,9 @@
                                 <span>Diterima <strong class="float-end text-dark font-numeric">Rp {{ number_format($transaction->nominal_diterima, 0, ',', '.') }}</strong></span>
                                 <span class="d-block mt-1">Kembalian <strong class="float-end text-dark font-numeric">Rp {{ number_format($transaction->kembalian, 0, ',', '.') }}</strong></span>
                             </div>
+                            <a class="btn btn-sm btn-outline-danger w-100 mt-3" href="{{ route('transactions.receipt', $transaction) }}" target="_blank" rel="noopener">
+                                Cetak ulang struk
+                            </a>
                         </div>
                     </article>
                 @empty

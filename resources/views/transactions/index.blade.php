@@ -78,7 +78,7 @@
         </div>
 
         <div class="col-12 col-xl-4">
-            <section class="card shadow-sm sticky-xl-top" style="top: 90px;">
+            <section class="card shadow-sm sticky-xl-top transaction-cart" style="top: 90px;">
                 <div class="card-header bg-white py-3">
                     <h2 class="h6 fw-bold mb-0">Keranjang</h2>
                 </div>
@@ -261,6 +261,11 @@
             if (nominal < total) {
                 event.preventDefault();
                 alert('Uang yang diterima masih kurang dari total pembayaran.');
+                return;
+            }
+
+            if (!window.confirm(`Selesaikan transaksi dengan total ${formatMoney(total)}?`)) {
+                event.preventDefault();
             }
         });
 

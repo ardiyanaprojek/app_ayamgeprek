@@ -18,7 +18,7 @@
 
         <aside class="app-sidebar p-3" id="app-sidebar" aria-label="Navigasi utama">
             <a class="brand d-flex align-items-center gap-2 text-decoration-none text-white mb-4" href="{{ route('dashboard') }}">
-                <span class="brand-mark rounded-3 bg-danger text-white fw-bold d-inline-flex align-items-center justify-content-center">AGI</span>
+                <span class="brand-mark rounded-3 bg-danger text-white fw-bold d-inline-flex align-items-center justify-content-center">GP</span>
                 <span class="d-grid">
                     <strong class="small fw-bold text-dark">{{ $shopSetting->nama_warung }}</strong>
                     <small class="text-secondary">POS &amp; Inventaris</small>
@@ -73,6 +73,12 @@
                             <small class="text-secondary">{{ $currentUser->username }}</small>
                         </span>
                     </div>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mt-3 d-lg-none">
+                        @csrf
+                        <button type="button" class="btn btn-outline-secondary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                            Keluar
+                        </button>
+                    </form>
                 @else
                     <a href="{{ route('login') }}" class="btn btn-danger btn-sm w-100">Masuk</a>
                 @endauth
@@ -85,9 +91,9 @@
                     <button class="btn btn-outline-secondary btn-sm menu-toggle d-lg-none" type="button" aria-label="Buka menu navigasi" aria-controls="app-sidebar" aria-expanded="false" data-sidebar-toggle>
                         <span aria-hidden="true">☰</span>
                     </button>
-                    <span class="mobile-brand-mark rounded-3 bg-danger text-white fw-bold d-lg-none">AGI</span>
+                    <span class="mobile-brand-mark rounded-3 bg-danger text-white fw-bold d-lg-none">GP</span>
                     <div class="d-grid">
-                        <strong class="desktop-store-name">{{ $shopSetting->nama_warung }}</strong>
+                        {{-- <strong class="desktop-store-name">{{ $shopSetting->nama_warung }}</strong> --}}
                         <strong class="mobile-store-name">{{ strtoupper($shopSetting->nama_warung) }}</strong>
                         <small class="mobile-store-location text-secondary">{{ $shopSetting->alamat ?: '-' }}</small>
                     </div>
@@ -97,11 +103,9 @@
                     @auth
                         <div class="user-toolbar d-flex align-items-center gap-2">
                             <span class="text-secondary small d-none d-md-inline">{{ $currentUser->username ?? $currentUser->name }}</span>
-                            <span class="avatar rounded-circle fw-bold d-inline-flex align-items-center justify-content-center" aria-label="Profil {{ $currentUser->name }}">{{ $userInitial }}</span>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#logoutModal">Keluar</button>
-                            </form>
+                            <button type="button" class="btn btn-outline-secondary btn-sm d-none d-lg-inline" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                Keluar
+                            </button>
                         </div>
                     @else
                         <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-sm">Masuk</a>

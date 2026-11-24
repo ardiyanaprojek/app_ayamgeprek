@@ -36,7 +36,7 @@
                     <h2 class="h6 fw-bold mb-0">Konfigurasi Akun</h2>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('settings.account.update') }}">
+                    <form method="POST" action="{{ route('settings.account.update') }}" onsubmit="return confirm('Simpan perubahan akun?')">
                         @csrf
                         @method('PUT')
 
@@ -74,7 +74,7 @@
                     <h2 class="h6 fw-bold mb-0">Kelola Warung</h2>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('settings.shop.update') }}">
+                    <form method="POST" action="{{ route('settings.shop.update') }}" onsubmit="return confirm('Simpan informasi warung?')">
                         @csrf
                         @method('PUT')
 
