@@ -10,8 +10,9 @@ use Illuminate\View\View;
 
 class LoginController extends Controller
 {
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
+        // ini untuk mengecek pengguna sudah login/belum
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
@@ -21,11 +22,13 @@ class LoginController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        // validasi input
         $credentials = $request->validate([
             'username' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string'],
         ]);
 
+        // Mengecek username dan password
         if (Auth::attempt([
             'username' => $credentials['username'],
             'password' => $credentials['password'],
@@ -35,15 +38,18 @@ class LoginController extends Controller
             return redirect()->intended(route('dashboard'));
         }
 
+        // jika username atau passeword salah
         return back()
             ->withErrors([
                 'username' => 'Username atau password salah.',
-            ])
+                'password' => 'Username atau password salah.',
+        ])
             ->onlyInput('username');
     }
 
     public function destroy(Request $request): RedirectResponse
     {
+        // untuk keluar dari aplikasi
         Auth::logout();
 
         $request->session()->invalidate();

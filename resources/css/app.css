@@ -1,5 +1,6 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
+/* start dasar */
 :root {
     --bs-primary: #6366f1;
     --bs-primary-rgb: 99, 102, 241;
@@ -26,12 +27,14 @@ body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
 }
+/* end dasar */
 
+/* start login */
 .auth-page {
     display: flex;
-    min-height: 100vh;
     align-items: center;
     justify-content: center;
+    min-height: 100vh;
     padding: 2rem 1rem;
     background: linear-gradient(135deg, #fff1f2 0%, #eef2ff 100%);
 }
@@ -140,6 +143,9 @@ body {
     font-weight: 700;
 }
 
+/* end login */
+
+/* start navigasi dan layout */
 .user-toolbar {
     gap: .75rem;
 }
@@ -277,7 +283,9 @@ body {
 .sidebar-backdrop {
     display: none;
 }
+/* end navigasi dan layout */
 
+/* start komponen POS */
 .pos-card,
 .app-main .card {
     border: 1px solid #f1f5f9;
@@ -422,7 +430,9 @@ body {
     background: #ede9fe;
     color: #6366f1;
 }
+/* end komponen POS */
 
+/* start dashboard */
 .dashboard-page {
     display: grid;
     gap: 1.25rem;
@@ -847,7 +857,9 @@ body {
 .mobile-bottom-nav {
     display: none;
 }
+/* end dashboard */
 
+/* start responsif */
 @media (max-width: 991.98px) {
     .dashboard-stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -949,6 +961,75 @@ body {
 }
 
 @media (max-width: 575.98px) {
+    .auth-page {
+        min-height: 100vh;
+        min-height: 100svh;
+        padding: .75rem;
+    }
+
+    .auth-shell {
+        width: 100%;
+        max-width: 340px;
+    }
+
+    .auth-card {
+        padding: 1.25rem;
+        border-radius: 18px;
+    }
+
+    .auth-brand {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        font-size: .85rem;
+    }
+
+    .auth-kicker {
+        margin-top: .7rem;
+        font-size: .62rem;
+    }
+
+    .auth-title {
+        margin-bottom: 1rem;
+        font-size: 1.55rem;
+    }
+
+    .auth-form .mb-3 {
+        margin-bottom: .75rem !important;
+    }
+
+    .auth-form .form-label,
+    .auth-form .form-check-label {
+        font-size: .82rem;
+    }
+
+    .auth-form .form-control {
+        min-height: 40px;
+        padding: .4rem .65rem;
+        border-radius: 9px;
+        font-size: .875rem;
+    }
+
+    .password-field .form-control {
+        padding-right: 40px;
+    }
+
+    .password-toggle {
+        right: 8px;
+        font-size: .9rem;
+    }
+
+    .btn-login {
+        min-height: 40px;
+        border-radius: 9px;
+        font-size: .9rem;
+    }
+
+    .auth-form .alert {
+        padding: .6rem .75rem;
+        font-size: .8rem;
+    }
+
     .dashboard-page {
         gap: .9rem;
     }
@@ -1066,3 +1147,4 @@ body {
         font-size: .8rem;
     }
 }
+/* end responsif */

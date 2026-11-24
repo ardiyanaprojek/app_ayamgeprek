@@ -1,6 +1,31 @@
 import './bootstrap';
 import 'bootstrap';
 
+// Ambil semua tombol yang digunakan untuk menampilkan atau menyembunyikan password.
+const toggleButtons = document.querySelectorAll('[data-password-toggle]');
+
+// Pasang aksi klik pada setiap tombol password.
+toggleButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        // Input password berada tepat sebelum tombol di dalam formulir.
+        const input = button.previousElementSibling;
+
+        // Periksa apakah input sedang menyembunyikan password.
+        const isPassword = input.type === 'password';
+
+        // Ubah tipe input agar password terlihat atau kembali tersembunyi.
+        input.type = isPassword ? 'text' : 'password';
+
+        // Perbarui label aksesibilitas sesuai aksi yang tersedia berikutnya.
+        button.setAttribute('aria-label', isPassword ? 'Sembunyikan password' : 'Lihat password');
+
+        // Ganti ikon agar sesuai dengan keadaan input password.
+        button.innerHTML = isPassword
+            ? '<span aria-hidden="true">🙈</span>'
+            : '<span aria-hidden="true">👁</span>';
+    });
+});
+
 const logoutConfirmButton = document.querySelector('#confirm-logout');
 
 logoutConfirmButton?.addEventListener('click', () => {

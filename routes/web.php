@@ -13,11 +13,13 @@ use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
+// rouute untuk pengguna yang belum login
 Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'create'])->name('login');
     Route::post('login', [LoginController::class, 'store'])->name('login');
 });
 
+// route untuk pengguna yang sudah login
 Route::middleware('auth')->group(function () {
     Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
 
